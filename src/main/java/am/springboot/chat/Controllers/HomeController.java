@@ -1,5 +1,6 @@
 package am.springboot.chat.Controllers;
 
+import am.springboot.chat.DTO.FriendsList;
 import am.springboot.chat.DTO.SearchUserDto;
 import am.springboot.chat.Dao.UsersDao;
 import org.springframework.http.ResponseEntity;
@@ -31,11 +32,9 @@ public class HomeController {
     @GetMapping(path = "{id}")
     public ModelAndView homepage(@PathVariable("id") int id){
         ModelAndView modelAndView = new ModelAndView("index");
-
-//        modelAndView.addObject();
+        List<FriendsList> friendsLists = usersDao.getFriendsList(id);
+        modelAndView.addObject("friendsLists", friendsLists);
         return modelAndView;
-
-
     }
 
 }

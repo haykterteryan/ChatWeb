@@ -2,6 +2,7 @@ package am.springboot.chat.Entity;
 
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name= "friends")
@@ -18,10 +19,21 @@ public class FriendsEntity {
     @Column(name = "friend_id")
     private int friendId;
 
-    @ManyToOne(cascade=CascadeType.ALL)
-    @JoinColumn(name="user_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn( name="friend_id",insertable = false, updatable = false)
     private UserEntity userEntity;
 
+    public FriendsEntity() {
+    }
+
+
+    public UserEntity getUserEntity() {
+        return userEntity;
+    }
+
+    public void setUserEntity(UserEntity userEntity) {
+        this.userEntity = userEntity;
+    }
 
     public int getFriendsId() {
         return friendsId;

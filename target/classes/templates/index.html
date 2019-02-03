@@ -8,16 +8,31 @@
 <form class="example" action="" method="get" style="margin:auto;max-width:300px">
     <input type="text" placeholder="Search by First Name" name="search"></input>
     <button type="submit">Search</button>
+    <div th:if="${not #lists.isEmpty(searchresult)}">
+        <h2>Counts List</h2>
+        <table class="table table-striped">
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+            </tr>
+            <tr th:each="result : ${searchresult}">
+                <td th:text="${result.firstName}"></td>
+                <td th:text="${result.lastName}"></td>
+            </tr>
+        </table>
+    </div>
 </form>
 
-<div th:if="${not #lists.isEmpty(searchresult)}">
+
+<div th:if="${not #lists.isEmpty(friendsLists)}">
     <h2>Counts List</h2>
     <table class="table table-striped">
         <tr>
             <th>Id</th>
             <th>Name</th>
         </tr>
-        <tr th:each="result : ${searchresult}">
+        <tr th:each="result : ${friendsLists}">
+            <td th:text="${result.id}"></td>
             <td th:text="${result.firstName}"></td>
             <td th:text="${result.lastName}"></td>
         </tr>

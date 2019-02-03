@@ -28,27 +28,34 @@ public class LoginController {
     @GetMapping("/login")
     public String login(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if(authentication instanceof AnonymousAuthenticationToken) {
+        if(!(authentication instanceof AnonymousAuthenticationToken)) {
 
-            return "login";
-        }
-        Object principal = authentication.getPrincipal();
-        int id;
-        if(principal instanceof User){
-             id = ((UserDomain) principal).getUserId();
-        }
-        else{id = -1;}
+            Object principal = authentication.getPrincipal();
+            int id;
+            if(principal instanceof User){
+                id = ((UserDomain) principal).getUserId();
+            }
+            else{id = -1;}
 
-        return "redirect:/"+ id ;
+            return "redirect:/"+ id ;
+        }
+
+        return "login";
     }
 
 
 
-    @GetMapping("/home")
-    public ModelAndView home(){
-        ModelAndView modelAndView = new ModelAndView("home");
-        modelAndView.addObject("valod", "Welcome to Chat");
-        return modelAndView;
+    @GetMapping("/")
+    public String home(){
+
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        int id;
+        if(principal instanceof User){
+            id = ((UserDomain) principal).getUserId();
+        }
+        else{id = -1;}
+
+        return "redirect:/"+ id ;
     }
 
     @GetMapping("/register")

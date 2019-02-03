@@ -4,6 +4,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
@@ -34,6 +36,12 @@ public class UserEntity  {
     @Column( nullable = false, updatable = false,
             insertable = false, columnDefinition = "register_date DEFAULT CURRENT_TIMESTAMP")
     private Timestamp registerDate;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userEntity")
+    private List<FriendsEntity> friendsEntity = new ArrayList<FriendsEntity>();
+
+    public UserEntity() {
+    }
 
     public int getUserId() {
         return userId;
@@ -90,4 +98,5 @@ public class UserEntity  {
     public void setRegisterDate(Timestamp registerDate) {
         this.registerDate = registerDate;
     }
+
 }
