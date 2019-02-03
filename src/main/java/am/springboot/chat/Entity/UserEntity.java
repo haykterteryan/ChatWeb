@@ -1,12 +1,14 @@
 package am.springboot.chat.Entity;
 
+import org.springframework.security.core.userdetails.UserDetails;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 
 
 @Entity
 @Table(name = "users")
-public class UserEntity {
+public class UserEntity  {
 
     @Id()
     @GeneratedValue(strategy = GenerationType.IDENTITY)

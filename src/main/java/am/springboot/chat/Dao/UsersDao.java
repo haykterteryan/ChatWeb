@@ -28,4 +28,12 @@ public class UsersDao {
 
         return searchUserDtos;
     }
+
+    public List<?> getFriendsList(int userId){
+
+        List<UserEntity> userEntities = userRepository.findByUserId(userId);
+
+    }
+
+
 }

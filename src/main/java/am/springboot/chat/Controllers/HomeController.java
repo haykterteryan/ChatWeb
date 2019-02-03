@@ -19,19 +19,20 @@ public class HomeController {
         this.usersDao = usersDao;
     }
 
-    @GetMapping(value="/{username}", params = "search")
-    public ResponseEntity<List<SearchUserDto>> search(@RequestParam(name = "search") String name){
+    @GetMapping(value="/{id}", params = "search")
+    public ModelAndView search(@RequestParam(name = "search") String name){
+        ModelAndView modelAndView = new ModelAndView("index");
         List<SearchUserDto> searchUserDtos = usersDao.loadUserByname(name);
-        return  searchUserDtos.isEmpty() ?
-                ResponseEntity.noContent().build() :
-                ResponseEntity.ok(searchUserDtos);
+        modelAndView.addObject("searchresult",searchUserDtos);
+        return  modelAndView;
 
     }
 
-    @GetMapping(path = "{username}")
-    public ModelAndView homepage(@PathVariable("username") String username){
+    @GetMapping(path = "{id}")
+    public ModelAndView homepage(@PathVariable("id") int id){
         ModelAndView modelAndView = new ModelAndView("index");
-        modelAndView.addObject();
+
+//        modelAndView.addObject();
         return modelAndView;
 
 

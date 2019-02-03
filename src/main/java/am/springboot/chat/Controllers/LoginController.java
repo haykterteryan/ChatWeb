@@ -3,10 +3,12 @@ package am.springboot.chat.Controllers;
 
 import am.springboot.chat.Servise.UserService;
 import am.springboot.chat.domain.RegisterRequest;
+import am.springboot.chat.domain.UserDomain;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -31,13 +33,13 @@ public class LoginController {
             return "login";
         }
         Object principal = authentication.getPrincipal();
-        String name;
+        int id;
         if(principal instanceof User){
-             name = ((User) principal).getUsername();
+             id = ((UserDomain) principal).getUserId();
         }
-        else{name = principal.toString();}
-        //SecurityContextHolder.getContext().getAuthentication().getPrincipal().getClass();
-        return "redirect:/"+ name ;
+        else{id = -1;}
+
+        return "redirect:/"+ id ;
     }
 
 
