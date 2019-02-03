@@ -19,6 +19,8 @@ public class LoginController {
 
     private final UserService userService;
 
+
+
     public LoginController(UserService userService) {
         this.userService = userService;
     }
@@ -37,26 +39,12 @@ public class LoginController {
             }
             else{id = -1;}
 
-            return "redirect:/"+ id ;
+            return "redirect:/" ;
         }
 
         return "login";
     }
 
-
-
-    @GetMapping("/")
-    public String home(){
-
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        int id;
-        if(principal instanceof User){
-            id = ((UserDomain) principal).getUserId();
-        }
-        else{id = -1;}
-
-        return "redirect:/"+ id ;
-    }
 
     @GetMapping("/register")
     public String register(){
