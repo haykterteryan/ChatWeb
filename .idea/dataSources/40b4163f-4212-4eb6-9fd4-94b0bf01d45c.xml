@@ -1086,112 +1086,124 @@
       <RefTableName>users</RefTableName>
       <RefColNames>user_id</RefColNames>
     </foreign-key>
-    <column id="268" parent="247" name="message_from_id">
-      <Position>1</Position>
-      <DataType>int(11)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="269" parent="247" name="message_to_id">
-      <Position>2</Position>
-      <DataType>int(11)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="270" parent="247" name="message">
-      <Position>3</Position>
-      <DataType>text|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="271" parent="247" name="readed">
-      <Position>4</Position>
-      <DataType>tinyint(1)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="272" parent="247" name="send_date">
-      <Position>5</Position>
-      <DataType>datetime|0s</DataType>
-      <NotNull>1</NotNull>
-      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <index id="273" parent="247" name="message_from_id">
-      <ColNames>message_from_id</ColNames>
-      <Type>btree</Type>
-    </index>
-    <index id="274" parent="247" name="message_to_id">
-      <ColNames>message_to_id</ColNames>
-      <Type>btree</Type>
-    </index>
-    <foreign-key id="275" parent="247" name="messages_ibfk_1">
-      <ColNames>message_from_id</ColNames>
-      <RefSchemaName>boot_chat</RefSchemaName>
-      <RefTableName>users</RefTableName>
-      <RefColNames>user_id</RefColNames>
-    </foreign-key>
-    <foreign-key id="276" parent="247" name="messages_ibfk_2">
-      <ColNames>message_to_id</ColNames>
-      <RefSchemaName>boot_chat</RefSchemaName>
-      <RefTableName>users</RefTableName>
-      <RefColNames>user_id</RefColNames>
-    </foreign-key>
-    <column id="277" parent="248" name="user_id">
+    <column id="268" parent="247" name="conversation_id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="278" parent="248" name="user_login">
+    <column id="269" parent="247" name="message_from_id">
+      <Position>2</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="270" parent="247" name="message_to_id">
+      <Position>3</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="271" parent="247" name="message">
+      <Position>4</Position>
+      <DataType>text|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="272" parent="247" name="readed">
+      <Position>5</Position>
+      <DataType>tinyint(1)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="273" parent="247" name="send_date">
+      <Position>6</Position>
+      <DataType>datetime|0s</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <index id="274" parent="247" name="message_from_id">
+      <ColNames>message_from_id</ColNames>
+      <Type>btree</Type>
+    </index>
+    <index id="275" parent="247" name="message_to_id">
+      <ColNames>message_to_id</ColNames>
+      <Type>btree</Type>
+    </index>
+    <key id="276" parent="247" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>conversation_id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="277" parent="247" name="messages_ibfk_1">
+      <ColNames>message_from_id</ColNames>
+      <RefSchemaName>boot_chat</RefSchemaName>
+      <RefTableName>users</RefTableName>
+      <RefColNames>user_id</RefColNames>
+    </foreign-key>
+    <foreign-key id="278" parent="247" name="messages_ibfk_2">
+      <ColNames>message_to_id</ColNames>
+      <RefSchemaName>boot_chat</RefSchemaName>
+      <RefTableName>users</RefTableName>
+      <RefColNames>user_id</RefColNames>
+    </foreign-key>
+    <column id="279" parent="248" name="user_id">
+      <Position>1</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="280" parent="248" name="user_login">
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="279" parent="248" name="user_password">
+    <column id="281" parent="248" name="user_password">
       <Position>3</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="280" parent="248" name="first_name">
+    <column id="282" parent="248" name="first_name">
       <Position>4</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="281" parent="248" name="last_name">
+    <column id="283" parent="248" name="last_name">
       <Position>5</Position>
       <DataType>varchar(255)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="282" parent="248" name="User_role">
+    <column id="284" parent="248" name="User_role">
       <Position>6</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;ROLE_USER&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="283" parent="248" name="register_date">
+    <column id="285" parent="248" name="register_date">
       <Position>7</Position>
       <DataType>datetime|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="284" parent="248" name="user_login">
+    <index id="286" parent="248" name="user_login">
       <ColNames>user_login</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <key id="285" parent="248" name="PRIMARY">
+    <key id="287" parent="248" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>user_id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="286" parent="248" name="user_login">
+    <key id="288" parent="248" name="user_login">
       <ColNames>user_login</ColNames>
       <UnderlyingIndexName>user_login</UnderlyingIndexName>
     </key>

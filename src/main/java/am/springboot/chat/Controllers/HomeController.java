@@ -1,7 +1,9 @@
 package am.springboot.chat.Controllers;
 
 import am.springboot.chat.DTO.FriendsList;
+import am.springboot.chat.DTO.MessageDto;
 import am.springboot.chat.DTO.SearchUserDto;
+import am.springboot.chat.Dao.MessageDao;
 import am.springboot.chat.Dao.UsersDao;
 import am.springboot.chat.domain.UserDomain;
 import org.springframework.http.ResponseEntity;
@@ -21,11 +23,11 @@ public class HomeController {
 
     UsersDao usersDao;
     static int loggedInUserId;
-    List<FriendsList> friendsLists;
+    MessageDao messageDao;
 
-
-    public HomeController(UsersDao usersDao) {
+    public HomeController(UsersDao usersDao, MessageDao messageDao) {
         this.usersDao = usersDao;
+        this.messageDao = messageDao;
     }
 
     private static void getUserId() {
@@ -41,7 +43,7 @@ public class HomeController {
         ModelAndView modelAndView = new ModelAndView("index");
         List<SearchUserDto> searchUserDtos = usersDao.loadUserByname(name);
         modelAndView.addObject("searchresult",searchUserDtos);
-        modelAndView.addObject("friendsLists",friendsLists);
+       // modelAndView.addObject("friendsLists",friendsLists);
         return  modelAndView;
 
     }
@@ -50,16 +52,16 @@ public class HomeController {
     public ModelAndView homepage(){
         getUserId();
         ModelAndView modelAndView = new ModelAndView("index");
-        friendsLists = usersDao.getFriendsList(loggedInUserId);
+        List<FriendsList> friendsLists = usersDao.getFriendsList(loggedInUserId);
         modelAndView.addObject("friendsLists", friendsLists);
         return modelAndView;
 
     }
 
-    @GetMapping(path = "{id}")
-    public ModelAndView messageHistory(@PathVariable("{id}") int id){
-        ModelAndView modelAndView = new ModelAndView();
-
+    @GetMapping(value = "{id}")
+    public ModelAndView messageHistory(@PathVariable int id){
+        ModelAndView modelAndView = new ModelAndView("index");
+        List<MessageDto> messageDtos = messageDao.getMessageHistory(loggedInUserId,id);
 
 
 

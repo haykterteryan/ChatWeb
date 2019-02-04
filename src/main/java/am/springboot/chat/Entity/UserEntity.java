@@ -14,6 +14,7 @@ public class UserEntity  {
 
     @Id()
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name ="user_id")
     private int userId;
 
     @Column(unique = true)
@@ -39,6 +40,7 @@ public class UserEntity  {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userEntity")
     private List<FriendsEntity> friendsEntity = new ArrayList<FriendsEntity>();
+
 
     public UserEntity() {
     }
