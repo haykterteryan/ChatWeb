@@ -1,0 +1,26 @@
+*, *:before, *:after {
+    box-sizing: border-box;
+}
+
+.container {
+    display: flex;
+    flex-grow: 1;
+}
+
+.list-item {
+    display: flex;
+    padding: 20px;
+}
+
+.item-content {
+    display: flex;
+    padding: 20px;
+    border: 0 solid rgba(123, 123, 123, 0.498039);
+    border-radius: 4px;
+    color: #999999;
+    line-height: 90px;
+    font-size: 24px;
+    font-weight: 400;
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px 0;
+}

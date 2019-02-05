@@ -1,6 +1,7 @@
 package am.springboot.chat.Repository;
 
 import am.springboot.chat.DTO.FriendsList;
+import am.springboot.chat.Entity.FriendRequestEntity;
 import am.springboot.chat.Entity.MessagesEntity;
 import am.springboot.chat.Entity.UserEntity;
 import org.springframework.data.jpa.repository.Query;
@@ -23,4 +24,8 @@ public interface UserRepository extends CrudRepository<UserEntity,Long> {
             " where (message_from_id = :fromId and message_to_id = :toId) " +
             " or (message_from_id = :toId and message_to_id= :fromId )")
     List<MessagesEntity> findBy(@Param("fromId") int from, @Param("toId") int to);
+
+    @Query("Select users from UserEntity users inner Join users.friendRequestEntities request" +
+            " where request_to_id = :id and readed = false ")
+    List<UserEntity> findByRequestToId(@Param("id") int id);
 }

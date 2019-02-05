@@ -10,7 +10,7 @@ public class MessageDto {
 
     private String message;
 
-    private Date registerDate = new Date();
+    private Date registerDate;
 
     public MessageDto(int messageFromId, int messageToId, String message, Date registerDate) {
         this.messageFromId = messageFromId;

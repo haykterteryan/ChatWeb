@@ -42,7 +42,26 @@ public class UserEntity  {
     private List<FriendsEntity> friendsEntity = new ArrayList<FriendsEntity>();
 
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "fromRequestEntity")
+    private List<FriendRequestEntity> friendRequestEntities = new ArrayList<>();
+
     public UserEntity() {
+    }
+
+    public List<FriendsEntity> getFriendsEntity() {
+        return friendsEntity;
+    }
+
+    public void setFriendsEntity(List<FriendsEntity> friendsEntity) {
+        this.friendsEntity = friendsEntity;
+    }
+
+    public List<FriendRequestEntity> getFriendRequestEntities() {
+        return friendRequestEntities;
+    }
+
+    public void setFriendRequestEntities(List<FriendRequestEntity> friendRequestEntities) {
+        this.friendRequestEntities = friendRequestEntities;
     }
 
     public int getUserId() {

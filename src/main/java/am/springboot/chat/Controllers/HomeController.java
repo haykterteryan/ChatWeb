@@ -2,6 +2,7 @@ package am.springboot.chat.Controllers;
 
 import am.springboot.chat.DTO.FriendsList;
 import am.springboot.chat.DTO.MessageDto;
+import am.springboot.chat.DTO.RequestDto;
 import am.springboot.chat.DTO.SearchUserDto;
 import am.springboot.chat.Dao.FriendRequestDao;
 import am.springboot.chat.Dao.MessageDao;
@@ -21,7 +22,7 @@ import java.util.List;
 @RequestMapping("/")
 public class HomeController {
 
-
+    List<FriendsList> friendsLists;
     UsersDao usersDao;
     static int loggedInUserId;
     MessageDao messageDao;
@@ -46,17 +47,17 @@ public class HomeController {
         ModelAndView modelAndView = new ModelAndView("index");
         List<SearchUserDto> searchUserDtos = usersDao.loadUserByname(name);
         modelAndView.addObject("searchresult",searchUserDtos);
-       // modelAndView.addObject("friendsLists",friendsLists);
+        modelAndView.addObject("friendsLists",friendsLists);
         return  modelAndView;
-
     }
 
     @GetMapping()
     public ModelAndView homepage(){
         getUserId();
         sendMessage(2,"barev", true);
+        List<RequestDto> friendRequestDaos = friendRequestDao.getFriendRequest(loggedInUserId);
         ModelAndView modelAndView = new ModelAndView("index");
-        List<FriendsList> friendsLists = usersDao.getFriendsList(loggedInUserId);
+        friendsLists = usersDao.getFriendsList(loggedInUserId);
         modelAndView.addObject("friendsLists", friendsLists);
         return modelAndView;
 
@@ -66,14 +67,12 @@ public class HomeController {
     public ModelAndView messageHistory(@PathVariable int id){
         ModelAndView modelAndView = new ModelAndView("index");
         List<MessageDto> messageDtos = messageDao.getMessageHistory(loggedInUserId,id);
-
-
-
-
         return modelAndView;
     }
 
-    //@GetMapping("sendmessage")
+
+
+    @GetMapping("sendmessage")
     public String sendMessage(int toId, String message,Boolean readed){
         messageDao.sendMessageToDb(loggedInUserId,toId,message,readed);
         return null;
@@ -86,6 +85,16 @@ public class HomeController {
         friendRequestDao.sendFriendRequest(loggedInUserId,toId);
         return null;
     }
+
+//    @GetMapping()
+//    public String acceptOrDeniedFriendRequest(int id, int accept){
+//
+//        friendRequestDao.acceptOrDeniedFriendRequest(loggedInUserId,id,accept);
+//
+//        return null;
+//    }
+
+
 
    // @GetMapping()
 

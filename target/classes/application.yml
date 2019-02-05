@@ -7,3 +7,4 @@ spring:
     username: root
     password:
     driver-class-name: com.mysql.jdbc.Driver
+  show-sql: true

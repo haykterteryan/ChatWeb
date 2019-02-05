@@ -29,16 +29,20 @@ public class FriendRequestEntity {
             columnDefinition="TIMESTAMP default CURRENT_TIMESTAMP")
     private Date frinedshipDate = new Date();
 
-//    @ManyToOne
-//    @JoinColumn(name = "request_from_id", referencedColumnName = "user_id",
-//            insertable = false,updatable = false)
-//    private UserEntity fromRequestEntity;
-
-
-
-
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "request_from_id",insertable = false ,updatable = false)
+    private UserEntity fromRequestEntity;
 
     public FriendRequestEntity() {
+
+    }
+
+    public UserEntity getFromRequestEntity() {
+        return fromRequestEntity;
+    }
+
+    public void setFromRequestEntity(UserEntity fromRequestEntity) {
+        this.fromRequestEntity = fromRequestEntity;
     }
 
     public boolean isReaded() {
@@ -89,21 +93,6 @@ public class FriendRequestEntity {
         this.frinedshipDate = frinedshipDate;
     }
 
-//    public UsersEntity getFromRequestEntity() {
-//        return fromRequestEntity;
-//    }
-//
-//    public void setFromRequestEntity(UsersEntity fromRequestEntity) {
-//        this.fromRequestEntity = fromRequestEntity;
-//    }
-//
-//    public UsersEntity getToRequestEntity() {
-//        return toRequestEntity;
-//    }
-//
-//    public void setToRequestEntity(UsersEntity toRequestEntity) {
-//        this.toRequestEntity = toRequestEntity;
-//    }
 
 
 }
