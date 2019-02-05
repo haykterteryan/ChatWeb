@@ -19,11 +19,11 @@ import java.util.List;
 @RequestMapping("/")
 public class HomeController {
 
-    List<FriendsList> friendsLists;
-    UsersDao usersDao;
-    static int loggedInUserId;
-    MessageDao messageDao;
-    FriendRequestDao friendRequestDao;
+    private List<FriendsList> friendsLists;
+    private UsersDao usersDao;
+    private static int loggedInUserId;
+    private MessageDao messageDao;
+    private FriendRequestDao friendRequestDao;
 
     public HomeController(UsersDao usersDao, MessageDao messageDao,FriendRequestDao friendRequestDao) {
         this.usersDao = usersDao;
@@ -51,7 +51,8 @@ public class HomeController {
     @GetMapping()
     public ModelAndView homepage(){
         getUserId();
-//        sendMessage(2,"barev", true);
+//
+// sendMessage(2,"barev", true);
 //        List<RequestDto> friendRequestDaos = friendRequestDao.getFriendRequest(loggedInUserId);
         ModelAndView modelAndView = new ModelAndView("index");
 
@@ -70,6 +71,7 @@ public class HomeController {
         modelAndView.addObject("loggedInUserId", loggedInUserId);
         modelAndView.addObject("messagehistory",messageHistory);
         modelAndView.addObject("friendsLists", friendsLists);
+        modelAndView.addObject("friendId",id);
         return modelAndView;
     }
 
