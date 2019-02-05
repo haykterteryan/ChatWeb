@@ -1,9 +1,7 @@
 package am.springboot.chat.Dao;
 
 import am.springboot.chat.DTO.RequestDto;
-import am.springboot.chat.Entity.FriendRequestEntity;
 import am.springboot.chat.Entity.UserEntity;
-import am.springboot.chat.Repository.RequestRepository;
 import am.springboot.chat.Repository.UserRepository;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;

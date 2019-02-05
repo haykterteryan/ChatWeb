@@ -1,11 +1,11 @@
 package am.springboot.chat.DTO;
 
-public class SearchUserDto {
+public class UserDto {
 
     private String firstName;
     private String lastName;
 
-    public SearchUserDto(String firstName, String lastName) {
+    public UserDto(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
     }

@@ -2,14 +2,11 @@ package am.springboot.chat.Controllers;
 
 import am.springboot.chat.DTO.FriendsList;
 import am.springboot.chat.DTO.MessageDto;
-import am.springboot.chat.DTO.RequestDto;
-import am.springboot.chat.DTO.SearchUserDto;
+import am.springboot.chat.DTO.UserDto;
 import am.springboot.chat.Dao.FriendRequestDao;
 import am.springboot.chat.Dao.MessageDao;
 import am.springboot.chat.Dao.UsersDao;
 import am.springboot.chat.domain.UserDomain;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
@@ -45,8 +42,8 @@ public class HomeController {
     @GetMapping(value="/", params = "search")
     public ModelAndView search(@RequestParam(name = "search") String name){
         ModelAndView modelAndView = new ModelAndView("index");
-        List<SearchUserDto> searchUserDtos = usersDao.loadUserByname(name);
-        modelAndView.addObject("searchresult",searchUserDtos);
+        List<UserDto> userDtos = usersDao.loadUserByname(name);
+        modelAndView.addObject("searchresult", userDtos);
         modelAndView.addObject("friendsLists",friendsLists);
         return  modelAndView;
     }
@@ -54,9 +51,10 @@ public class HomeController {
     @GetMapping()
     public ModelAndView homepage(){
         getUserId();
-        sendMessage(2,"barev", true);
-        List<RequestDto> friendRequestDaos = friendRequestDao.getFriendRequest(loggedInUserId);
+//        sendMessage(2,"barev", true);
+//        List<RequestDto> friendRequestDaos = friendRequestDao.getFriendRequest(loggedInUserId);
         ModelAndView modelAndView = new ModelAndView("index");
+
         friendsLists = usersDao.getFriendsList(loggedInUserId);
         modelAndView.addObject("friendsLists", friendsLists);
         return modelAndView;
@@ -66,7 +64,12 @@ public class HomeController {
     @GetMapping(value = "{id}")
     public ModelAndView messageHistory(@PathVariable int id){
         ModelAndView modelAndView = new ModelAndView("index");
-        List<MessageDto> messageDtos = messageDao.getMessageHistory(loggedInUserId,id);
+        modelAndView.addObject("friend",usersDao.getUserName(id));
+        List<MessageDto> messageHistory = messageDao.getMessageHistory(loggedInUserId,id);
+        friendsLists = usersDao.getFriendsList(loggedInUserId);
+        modelAndView.addObject("loggedInUserId", loggedInUserId);
+        modelAndView.addObject("messagehistory",messageHistory);
+        modelAndView.addObject("friendsLists", friendsLists);
         return modelAndView;
     }
 

@@ -1,7 +1,7 @@
 package am.springboot.chat.Dao;
 
 import am.springboot.chat.DTO.FriendsList;
-import am.springboot.chat.DTO.SearchUserDto;
+import am.springboot.chat.DTO.UserDto;
 import am.springboot.chat.Entity.UserEntity;
 import am.springboot.chat.Repository.UserRepository;
 import org.springframework.stereotype.Repository;
@@ -14,20 +14,21 @@ public class UsersDao {
 
     UserRepository userRepository;
 
+
     public UsersDao(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
-    public List<SearchUserDto> loadUserByname(String name) {
-        List<SearchUserDto> searchUserDtos = new ArrayList<>();
+    public List<UserDto> loadUserByname(String name) {
+        List<UserDto> userDtos = new ArrayList<>();
         List<UserEntity> userEntities = userRepository.findByFirstName(name);
 
         for (UserEntity userEntity : userEntities
              ) {
-            searchUserDtos.add(new SearchUserDto(userEntity.getFirstName(),userEntity.getLastName()));
+            userDtos.add(new UserDto(userEntity.getFirstName(),userEntity.getLastName()));
         }
 
-        return searchUserDtos;
+        return userDtos;
     }
 
     public List<FriendsList> getFriendsList(int userId){
@@ -42,5 +43,8 @@ public class UsersDao {
         return friendsLists;
     }
 
-
+    public UserDto getUserName(int userId) {
+        UserEntity userEntity = userRepository.getByUserId(userId);
+        return new UserDto(userEntity.getFirstName(),userEntity.getLastName());
+    }
 }

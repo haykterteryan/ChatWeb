@@ -10,13 +10,13 @@ public class MessageDto {
 
     private String message;
 
-    private Date registerDate;
+    private Date sendDate;
 
-    public MessageDto(int messageFromId, int messageToId, String message, Date registerDate) {
+    public MessageDto(int messageFromId, int messageToId, String message, Date sendDate) {
         this.messageFromId = messageFromId;
         this.messageToId = messageToId;
         this.message = message;
-        this.registerDate = registerDate;
+        this.sendDate = sendDate;
     }
 
     public int getMessageFromId() {
@@ -44,10 +44,10 @@ public class MessageDto {
     }
 
     public Date getRegisterDate() {
-        return registerDate;
+        return sendDate;
     }
 
-    public void setRegisterDate(Date registerDate) {
-        this.registerDate = registerDate;
+    public void setRegisterDate(Date sendDate) {
+        this.sendDate = sendDate;
     }
 }

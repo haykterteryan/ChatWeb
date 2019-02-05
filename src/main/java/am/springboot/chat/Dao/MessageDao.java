@@ -2,6 +2,7 @@ package am.springboot.chat.Dao;
 
 import am.springboot.chat.DTO.MessageDto;
 import am.springboot.chat.Entity.MessagesEntity;
+import am.springboot.chat.Repository.MessageRepository;
 import am.springboot.chat.Repository.UserRepository;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -12,17 +13,17 @@ import java.util.List;
 @Repository
 public class MessageDao {
 
-    UserRepository userRepository;
+    MessageRepository messageRepository;
     private final JdbcTemplate jdbcTemplate;
 
-    public MessageDao(UserRepository userRepository, JdbcTemplate jdbcTemplate) {
-        this.userRepository = userRepository;
+    public MessageDao( JdbcTemplate jdbcTemplate, MessageRepository messageRepository) {
+        this.messageRepository = messageRepository;
         this.jdbcTemplate = jdbcTemplate;
     }
 
 
     public List<MessageDto> getMessageHistory(int loggedInUserId, int friendid) {
-        List<MessagesEntity> messagesEntities = userRepository.findBy(loggedInUserId,friendid);
+        List<MessagesEntity> messagesEntities = messageRepository.findBy(loggedInUserId,friendid);
         List<MessageDto> messageDtos = new ArrayList<>();
 
         for (MessagesEntity messagesEntity : messagesEntities) {
