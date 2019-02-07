@@ -40,13 +40,9 @@ public class MessageDao {
 
     }
 
-    public List<MessageDto> getUnreadMessages(int loggedInUserId) {
-        List<MessageDto> messageDtos = new ArrayList<>();
-        messageRepository.findByToId(loggedInUserId).stream().
-                map(messagesEntity -> (messageDtos.add(new MessageDto(messagesEntity.getMessageFromId(),
-                        messagesEntity.getMessageToId(),messagesEntity.getMessage(),
-                        messagesEntity.getRegisterDate()))));
+    public void markUnreadMessagesAsReaded(int friendId) {
 
-        return messageDtos;
+        String query ="UPDATE messages SET readed = true where message_from_id = ?";
+        jdbcTemplate.update(query,friendId);
     }
 }

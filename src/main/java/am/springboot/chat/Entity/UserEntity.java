@@ -45,7 +45,18 @@ public class UserEntity  {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "fromRequestEntity")
     private List<FriendRequestEntity> friendRequestEntities = new ArrayList<>();
 
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "usersToEntity")
+    private List<MessagesEntity> usersMessageToEntity = new ArrayList<>();
+
     public UserEntity() {
+    }
+
+    public List<MessagesEntity> getUsersMessageToEntity() {
+        return usersMessageToEntity;
+    }
+
+    public void setUsersMessageToEntity(List<MessagesEntity> usersMessageToEntity) {
+        this.usersMessageToEntity = usersMessageToEntity;
     }
 
     public List<FriendsEntity> getFriendsEntity() {

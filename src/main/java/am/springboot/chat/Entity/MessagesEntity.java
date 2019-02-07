@@ -29,26 +29,22 @@ public class MessagesEntity {
             columnDefinition="TIMESTAMP default CURRENT_TIMESTAMP")
     private Date registerDate = new Date();
 
-//    @ManyToOne
-//    @JoinColumn( name="message_from_id",insertable = false, updatable = false)
-//    private UserEntity usersMessageFromEntity;
-//
-//    @ManyToOne
-//    @JoinColumn( name="message_to_id",insertable = false, updatable = false)
-//    private UserEntity usersMessageToEntity;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn( name="message_from_id",insertable = false, updatable = false)
+    private UserEntity usersToEntity;
 
 
     public MessagesEntity() {
 
     }
 
-//    public UserEntity getUsersMessageToEntity() {
-//        return usersMessageToEntity;
-//    }
-//
-//    public void setUsersMessageToEntity(UserEntity usersMessageToEntity) {
-//        this.usersMessageToEntity = usersMessageToEntity;
-//    }
+    public UserEntity getUsersToEntity() {
+        return usersToEntity;
+    }
+
+    public void setUsersToEntity(UserEntity usersToEntity) {
+        this.usersToEntity = usersToEntity;
+    }
 
     public int getConversationId() {
         return conversationId;

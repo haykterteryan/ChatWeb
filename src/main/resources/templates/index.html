@@ -59,13 +59,13 @@
         </div>
         <div class="main-content">
 
-            <section class="notifiy" th:if="${not #lists.isEmpty(friendrequest)}">
-                <div class="requestbody" th:each="result : ${friendrequest}">
-                        <div class =request th:text="${result.firstName+ ' ' + result.lastName}">
+            <!--<section class="notifiy" th:if="${not #lists.isEmpty(friendrequest)}">-->
+                <!--<div class="requestbody" th:each="result : ${friendrequest}">-->
+                        <!--<div class="request" th:text="${result.firstName + ' ' + result.lastName}">-->
 
-                        </div>
-                </div>
-            </section>
+                        <!--</div>-->
+                <!--</div>-->
+            <!--</section>-->
 
             <!--<section class="notifiy" th:if="${not #lists.isEmpty(friendrequest)}">-->
                 <!--<div class="requestbody" th:each="result : ${friendrequest}">-->
@@ -76,9 +76,9 @@
             <!--</section>-->
 
 
-            <section class="notifiy" th:if="${not #lists.isEmpty(messagenotification)}">
-                <div class="requestbody" th:each="result : ${messagenotification}">
-                    <div class =request th:text="${result.firstName+ ' ' + result.lastName}">
+            <section class="notifiy" th:if="${not #lists.isEmpty(unreadMessages)}">
+                <div class="unread-msg-body" th:each="result : ${unreadMessages}">
+                    <div class ="msg-from" th:text="${'You have message from ' + result.firstName + ' ' + result.lastName}">
 
                     </div>
                 </div>

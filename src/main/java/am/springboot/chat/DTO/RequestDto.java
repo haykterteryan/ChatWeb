@@ -2,6 +2,7 @@ package am.springboot.chat.DTO;
 
 import java.util.Date;
 
+
 public class RequestDto {
     private int requestFromid;
 
@@ -16,4 +17,44 @@ public class RequestDto {
     }
 
     private Date requestDate;
+
+    public int getRequestFromid() {
+        return requestFromid;
+    }
+
+    public void setRequestFromid(int requestFromid) {
+        this.requestFromid = requestFromid;
+    }
+
+    public int getRequestToId() {
+        return requestToId;
+    }
+
+    public void setRequestToId(int requestToId) {
+        this.requestToId = requestToId;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public Date getRequestDate() {
+        return requestDate;
+    }
+
+    public void setRequestDate(Date requestDate) {
+        this.requestDate = requestDate;
+    }
 }

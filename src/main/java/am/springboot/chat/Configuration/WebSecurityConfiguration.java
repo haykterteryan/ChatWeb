@@ -34,7 +34,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/login", "/register").permitAll()
 //                .antMatchers("/").authenticated()
-                .antMatchers("/").access("hasRole('USER')")
+                .antMatchers("/**").access("hasRole('USER')")
                 .antMatchers("/admin").access("hasRole('ADMIN')")
                 .and()
                 .authenticationProvider(daoAuthenticationProvider())

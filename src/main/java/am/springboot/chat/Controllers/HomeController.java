@@ -52,13 +52,17 @@ public class HomeController {
     @GetMapping()
     public ModelAndView homepage(){
         getUserId();
+
         List<RequestDto> requestDtos = friendRequestDao.getFriendRequest(loggedInUserId);
         friendsLists = usersDao.getFriendsList(loggedInUserId);
-        List<MessageDto> messageDtos = messageDao.getUnreadMessages(loggedInUserId);
+        List<UserDto> unreadMessages = usersDao.getUnreadMessages(loggedInUserId);
+
         ModelAndView modelAndView = new ModelAndView("index");
 
+        modelAndView.addObject("unreadMessages",unreadMessages);
         modelAndView.addObject("friendsLists", friendsLists);
         modelAndView.addObject("friendrequest",requestDtos);
+
         return modelAndView;
 
     }
@@ -69,6 +73,7 @@ public class HomeController {
         modelAndView.addObject("friend",usersDao.getUserName(id));
         List<MessageDto> messageHistory = messageDao.getMessageHistory(loggedInUserId,id);
         friendsLists = usersDao.getFriendsList(loggedInUserId);
+        messageDao.markUnreadMessagesAsReaded(id);
         modelAndView.addObject("loggedInUserId", loggedInUserId);
         modelAndView.addObject("messagehistory",messageHistory);
         modelAndView.addObject("friendsLists", friendsLists);
