@@ -2,6 +2,7 @@ package am.springboot.chat.Controllers;
 
 import am.springboot.chat.DTO.FriendsList;
 import am.springboot.chat.DTO.MessageDto;
+import am.springboot.chat.DTO.RequestDto;
 import am.springboot.chat.DTO.UserDto;
 import am.springboot.chat.Dao.FriendRequestDao;
 import am.springboot.chat.Dao.MessageDao;
@@ -51,13 +52,13 @@ public class HomeController {
     @GetMapping()
     public ModelAndView homepage(){
         getUserId();
-//
-// sendMessage(2,"barev", true);
-//        List<RequestDto> friendRequestDaos = friendRequestDao.getFriendRequest(loggedInUserId);
+        List<RequestDto> requestDtos = friendRequestDao.getFriendRequest(loggedInUserId);
+        friendsLists = usersDao.getFriendsList(loggedInUserId);
+        List<MessageDto> messageDtos = messageDao.getUnreadMessages(loggedInUserId);
         ModelAndView modelAndView = new ModelAndView("index");
 
-        friendsLists = usersDao.getFriendsList(loggedInUserId);
         modelAndView.addObject("friendsLists", friendsLists);
+        modelAndView.addObject("friendrequest",requestDtos);
         return modelAndView;
 
     }
@@ -73,14 +74,6 @@ public class HomeController {
         modelAndView.addObject("friendsLists", friendsLists);
         modelAndView.addObject("friendId",id);
         return modelAndView;
-    }
-
-
-
-    @GetMapping("sendmessage")
-    public String sendMessage(int toId, String message,Boolean readed){
-        messageDao.sendMessageToDb(loggedInUserId,toId,message,readed);
-        return null;
     }
 
 

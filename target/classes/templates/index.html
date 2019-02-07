@@ -69,7 +69,7 @@
 
                 <main id="chat" class="msger-chat" >
                     <div th:each="result : ${messagehistory}">
-                    <div class="msg left-msg" th:if="${result.messageToId != loggedInUserId}">
+                    <div class="msg left-msg" th:if="${result.messageToId == loggedInUserId }">
                         <div class="msg-bubble" >
                             <div class="msg-info">
                                 <div class="msg-info-time" th:text="${result.registerDate}">12:45</div>
@@ -81,7 +81,7 @@
                         </div>
                     </div>
 
-                    <div class="msg right-msg" th:if="${result.messageToId == loggedInUserId}">
+                    <div class="msg right-msg" th:if="${result.messageFromId == loggedInUserId}">
                         <div class="msg-bubble" >
                             <div class="msg-info">
                                 <div class="msg-info-time" th:text="${result.registerDate}">12:46</div>

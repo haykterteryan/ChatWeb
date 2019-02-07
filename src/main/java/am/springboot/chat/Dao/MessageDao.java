@@ -22,8 +22,8 @@ public class MessageDao {
     }
 
 
-    public List<MessageDto> getMessageHistory(int loggedInUserId, int friendid) {
-        List<MessagesEntity> messagesEntities = messageRepository.findBy(loggedInUserId,friendid);
+    public List<MessageDto> getMessageHistory(int loggedInUserId, int friendId) {
+        List<MessagesEntity> messagesEntities = messageRepository.findBy(loggedInUserId,friendId);
         List<MessageDto> messageDtos = new ArrayList<>();
 
         for (MessagesEntity messagesEntity : messagesEntities) {
@@ -34,8 +34,19 @@ public class MessageDao {
         return messageDtos;
     }
 
-    public void sendMessageToDb(int loggedInUserId, int toId, String message,boolean readed) {
+    public boolean sendMessageToDb(int loggedInUserId, int toId, String message,boolean readed) {
         String query ="insert into messages(message_from_id, message_to_id, message, readed) values (?,?,?,?) ";
-        jdbcTemplate.update(query,loggedInUserId,toId,message,readed);
+        return 1 == jdbcTemplate.update(query,loggedInUserId,toId,message,readed);
+
+    }
+
+    public List<MessageDto> getUnreadMessages(int loggedInUserId) {
+        List<MessageDto> messageDtos = new ArrayList<>();
+        messageRepository.findByToId(loggedInUserId).stream().
+                map(messagesEntity -> (messageDtos.add(new MessageDto(messagesEntity.getMessageFromId(),
+                        messagesEntity.getMessageToId(),messagesEntity.getMessage(),
+                        messagesEntity.getRegisterDate()))));
+
+        return messageDtos;
     }
 }

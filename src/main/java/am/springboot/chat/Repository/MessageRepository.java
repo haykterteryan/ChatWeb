@@ -14,4 +14,8 @@ public interface MessageRepository extends CrudRepository<MessagesEntity,Long> {
             " where (message_from_id = :fromId and message_to_id = :toId) " +
             " or (message_from_id = :toId and message_to_id= :fromId )")
     List<MessagesEntity> findBy(@Param("fromId") int from, @Param("toId") int to);
+
+
+    @Query("Select message from MessagesEntity message where message_to_id = :toId and readed=false")
+    List<MessagesEntity> findByToId(@Param("toId") int loggedInUserId);
 }

@@ -1,19 +1,18 @@
 package am.springboot.chat.Controllers;
 
+import am.springboot.chat.Dao.MessageDao;
 import am.springboot.chat.domain.SocketMessage;
 import am.springboot.chat.domain.UserDomain;
-import javafx.application.Application;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.session.SessionRegistry;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.MessageFormat;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+
+import static org.springframework.http.ResponseEntity.status;
 
 @RestController
 @RequestMapping("/api")
@@ -21,21 +20,27 @@ public class ChatController {
 
     private final SessionRegistry sessionRegistry;
     private final SimpMessagingTemplate simpMessagingTemplate;
+    private final MessageDao messageDao;
 
-    public ChatController(SessionRegistry sessionRegistry, SimpMessagingTemplate simpMessagingTemplate) {
+    public ChatController(SessionRegistry sessionRegistry, SimpMessagingTemplate simpMessagingTemplate, MessageDao messageDao) {
         this.sessionRegistry = sessionRegistry;
         this.simpMessagingTemplate = simpMessagingTemplate;
+        this.messageDao = messageDao;
     }
 
     @PostMapping(value = "/send", consumes = "application/json")
-    public ResponseEntity<SocketMessage> send(@RequestBody SocketMessage socketMessage ) {
+    public ResponseEntity<?> send(@RequestBody SocketMessage socketMessage ) {
 
         UserDomain loggedInUser = (UserDomain) SecurityContextHolder
                 .getContext()
                 .getAuthentication()
                 .getPrincipal();
-        int loggedInId = loggedInUser.getUserId();
+        int loggedInUserId = loggedInUser.getUserId();
 
+        if(!(messageDao.sendMessageToDb(loggedInUserId,socketMessage.getPersonId(),
+                socketMessage.getMessage(),false))){
+            return ResponseEntity.status(404).build();
+        }
 
         List<Object> allPrincipals = sessionRegistry.getAllPrincipals();
 
@@ -44,8 +49,8 @@ public class ChatController {
             UserDomain userDomain = (UserDomain)principal;
             if(userDomain.getUserId() == socketMessage.getPersonId()){
                 simpMessagingTemplate.convertAndSendToUser(userDomain.getUsername(),"/message",
-                        MessageFormat.format("{0} : {1} : {2}",loggedInUser.getUsername(),
-                                socketMessage.getMessage(),loggedInId));
+                        MessageFormat.format("{0} : {1} ",
+                                socketMessage.getMessage(),loggedInUserId));
             }
         }
 
