@@ -1,11 +1,5 @@
 package am.springboot.chat.domain;
 
-import lombok.Getter;
-import lombok.Setter;
-
-
-@Getter
-@Setter
 public class RegisterRequest {
 
     private String login;

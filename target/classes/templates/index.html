@@ -33,7 +33,7 @@
 
 
 
-<div class="page">
+<div class="page" >
     <div class="header">
         <div class="left"></div>
         <div class="center">
@@ -60,7 +60,7 @@
         <div class="main-content">
 
 
-            <section class="msger" th:if="${not #lists.isEmpty(messagehistory)}">
+            <section class="msger" th:if="${not #lists.isEmpty(messagehistory)}" >
                 <header class="msger-header">
                     <div class="msger-header-title" th:text="${friend.firstName+ ' ' + friend.lastName}">
 
@@ -96,7 +96,7 @@
 
                 <section class="msger-inputarea">
                     <input id = "txtMessage" type="text" class="msger-input" placeholder="Enter your message..." />
-                    <button class="msger-send-btn" onclick="sendMessage(' + ${friendId} + ')">Send</button>
+                    <button class="msger-send-btn" th:onclick="'javascript:sendMessage(' + ${friendId} + ')'">Send</button>
                 </section>
             </section>
 

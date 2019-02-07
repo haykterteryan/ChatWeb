@@ -31,14 +31,19 @@ function sendMessage(personId) {
     send(message,personId);
 }
 
+
+
 function send(message,personId) {
+
+    var mess = {
+        message:message,
+        personId:personId
+    }
     $.ajax('/api/send', {
         type: 'POST',
-        data: {
-            message: message,
-            personId: personId
-        },
-        contentType: 'text/plain',
+        data: JSON.stringify(mess),
+        // dataType: "json",
+        contentType: "application/json",
         xhrFields: {
             withCredentials: true
         },
@@ -48,11 +53,11 @@ function send(message,personId) {
             let $divmsginfo = $('<div/>').addClass('msg-info');
             let $divmsginfotime = $('<div/>').addClass('msg-info-time');
             let $divmsgtext = $('<div/>').addClass('msg-text');
-            console.log('3');
+
 
             $chat.append($divmsgrm
                 .append($divmsgbubble.append($divmsginfo.append($divmsginfotime))
-                    .append($divmsgtext.append(message))));
+                    .append($divmsgtext.append(mess.message))));
 
             $txtMessage.val('');
         }
