@@ -12,7 +12,12 @@ import java.util.Optional;
 
 public interface UserRepository extends CrudRepository<UserEntity,Long> {
     Optional<UserEntity> findByUserLogin(String login);
-    List<UserEntity> findByFirstName(String name);
+
+    @Query("Select users from UserEntity users " +
+            "inner join users.friendsEntity user " +
+            "where (users.firstName = :name or users.lastName = :name) and" +
+            " (user.userId <> :id or user.friendId <> :id)")
+    List<UserEntity> searchById(@Param("name") String name, @Param("id") int id);
 
     @Query("Select users from UserEntity users " +
             " inner JOIN users.friendsEntity friends " +

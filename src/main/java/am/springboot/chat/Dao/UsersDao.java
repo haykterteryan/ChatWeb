@@ -19,12 +19,11 @@ public class UsersDao {
         this.userRepository = userRepository;
     }
 
-    public List<UserDto> loadUserByname(String name) {
+    public List<UserDto> loadUserByname(String name, int loggedInUserId) {
         List<UserDto> userDtos = new ArrayList<>();
-        List<UserEntity> userEntities = userRepository.findByFirstName(name);
+        List<UserEntity> userEntities = userRepository.searchById(name,loggedInUserId);
 
-        for (UserEntity userEntity : userEntities
-             ) {
+        for (UserEntity userEntity : userEntities) {
             userDtos.add(new UserDto(userEntity.getFirstName(),userEntity.getLastName()));
         }
 

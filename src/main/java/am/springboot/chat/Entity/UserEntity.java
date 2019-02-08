@@ -23,10 +23,10 @@ public class UserEntity  {
     @Column
     private String userPassword;
 
-    @Column
+    @Column(name ="first_name ", insertable = false, updatable = false)
     private String firstName;
 
-    @Column
+    @Column(name = "last_name")
     private String lastName;
 
     @Column(name = "User_role", insertable=false , updatable = true,

@@ -42,9 +42,11 @@ public class HomeController {
 
     @GetMapping(value="/", params = "search")
     public ModelAndView search(@RequestParam(name = "search") String name){
+        getUserId();
+
         ModelAndView modelAndView = new ModelAndView("index");
 
-        List<UserDto> userDtos = usersDao.loadUserByname(name);
+        List<UserDto> userDtos = usersDao.loadUserByname(name,loggedInUserId);
 
         modelAndView.addObject("searchresult", userDtos);
         modelAndView.addObject("friendsLists",friendsLists);
