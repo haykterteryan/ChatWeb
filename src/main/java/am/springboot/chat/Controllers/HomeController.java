@@ -22,7 +22,7 @@ public class HomeController {
 
     private List<FriendsList> friendsLists;
     private UsersDao usersDao;
-    private static int loggedInUserId;
+    private int loggedInUserId;
     private MessageDao messageDao;
     private FriendRequestDao friendRequestDao;
 
@@ -32,7 +32,7 @@ public class HomeController {
         this.friendRequestDao =friendRequestDao;
     }
 
-    private static void getUserId() {
+    private  void getUserId() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if(principal instanceof User){
             loggedInUserId = ((UserDomain) principal).getUserId();
@@ -43,7 +43,9 @@ public class HomeController {
     @GetMapping(value="/", params = "search")
     public ModelAndView search(@RequestParam(name = "search") String name){
         ModelAndView modelAndView = new ModelAndView("index");
+
         List<UserDto> userDtos = usersDao.loadUserByname(name);
+
         modelAndView.addObject("searchresult", userDtos);
         modelAndView.addObject("friendsLists",friendsLists);
         return  modelAndView;
@@ -51,17 +53,18 @@ public class HomeController {
 
     @GetMapping()
     public ModelAndView homepage(){
+
         getUserId();
 
         List<RequestDto> requestDtos = friendRequestDao.getFriendRequest(loggedInUserId);
-        friendsLists = usersDao.getFriendsList(loggedInUserId);
         List<UserDto> unreadMessages = usersDao.getUnreadMessages(loggedInUserId);
+        friendsLists = usersDao.getFriendsList(loggedInUserId);
 
         ModelAndView modelAndView = new ModelAndView("index");
 
-        modelAndView.addObject("unreadMessages",unreadMessages);
-        modelAndView.addObject("friendsLists", friendsLists);
         modelAndView.addObject("friendrequest",requestDtos);
+        modelAndView.addObject("friendsLists", friendsLists);
+        modelAndView.addObject("unreadMessages",unreadMessages);
 
         return modelAndView;
 
@@ -69,15 +72,20 @@ public class HomeController {
 
     @GetMapping(value = "{id}")
     public ModelAndView messageHistory(@PathVariable int id){
-        ModelAndView modelAndView = new ModelAndView("index");
-        modelAndView.addObject("friend",usersDao.getUserName(id));
+
+        getUserId();
+
         List<MessageDto> messageHistory = messageDao.getMessageHistory(loggedInUserId,id);
         friendsLists = usersDao.getFriendsList(loggedInUserId);
         messageDao.markUnreadMessagesAsReaded(id);
-        modelAndView.addObject("loggedInUserId", loggedInUserId);
-        modelAndView.addObject("messagehistory",messageHistory);
+
+        ModelAndView modelAndView = new ModelAndView("index");
+
         modelAndView.addObject("friendsLists", friendsLists);
-        modelAndView.addObject("friendId",id);
+        modelAndView.addObject("messagehistory",messageHistory);
+        modelAndView.addObject("loggedInUserId", loggedInUserId);
+        modelAndView.addObject("friend",usersDao.getUserName(id));
+
         return modelAndView;
     }
 
@@ -97,8 +105,5 @@ public class HomeController {
 //        return null;
 //    }
 
-
-
-   // @GetMapping()
 
 }

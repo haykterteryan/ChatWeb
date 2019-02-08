@@ -1,5 +1,6 @@
-let $chat = $('#chat');
-let $txtMessage = $('#txtMessage');
+var $chat = $('#chat');
+var $txtMessage = $('#txtMessage');
+var friendId = $('#friend').val();
 
 $txtMessage.on('keypress', function (e) {
     if (e.which === 13) {
@@ -7,28 +8,35 @@ $txtMessage.on('keypress', function (e) {
     }
 });
 
-let socket = new SockJS('/ws');
-let stompClient = Stomp.over(socket);
+var socket = new SockJS('/ws');
+var stompClient = Stomp.over(socket);
 
 stompClient.connect({}, function (frame) {
     stompClient.subscribe('/user/message', function (data) {
-        let message = data.body;
+        var body = JSON.parse(data.body);
+        var message = body.message;
+        var persionId = body.personId;
+        if(persionId == friendId) {
+            var $divmsgrm = $('<div/>').addClass('msg left-msg');
+            var $divmsgbubble = $('<div/>').addClass('msg-bubble');
+            var $divmsginfo = $('<div/>').addClass('msg-info');
+            var $divmsginfotime = $('<div/>').addClass('msg-info-time');
+            var $divmsgtext = $('<div/>').addClass('msg-text');
 
-        let $divmsgrm = $('<div/>').addClass('msg left-msg');
-        let $divmsgbubble = $('<div/>').addClass('msg-bubble');
-        let $divmsginfo = $('<div/>').addClass('msg-info');
-        let $divmsginfotime = $('<div/>').addClass('msg-info-time');
-        let $divmsgtext = $('<div/>').addClass('msg-text');
 
-        $chat.append($divmsgrm
+
+            $chat.append($divmsgrm
                 .append($divmsgbubble.append($divmsginfo.append($divmsginfotime))
                     .append($divmsgtext.append(message))));
+        }else {
+            console.log("you have new message");
+        }
     });
 });
 
-function sendMessage(personId) {
-    let message = $txtMessage.val();
-    send(message,personId);
+function sendMessage() {
+    var message = $txtMessage.val();
+    send(message,friendId);
 }
 
 
@@ -48,11 +56,11 @@ function send(message,personId) {
             withCredentials: true
         },
         success: function (response) {
-            let $divmsgrm = $('<div/>').addClass('msg right-msg');
-            let $divmsgbubble = $('<div/>').addClass('msg-bubble');
-            let $divmsginfo = $('<div/>').addClass('msg-info');
-            let $divmsginfotime = $('<div/>').addClass('msg-info-time');
-            let $divmsgtext = $('<div/>').addClass('msg-text');
+            var $divmsgrm = $('<div/>').addClass('msg right-msg');
+            var $divmsgbubble = $('<div/>').addClass('msg-bubble');
+            var $divmsginfo = $('<div/>').addClass('msg-info');
+            var $divmsginfotime = $('<div/>').addClass('msg-info-time');
+            var $divmsgtext = $('<div/>').addClass('msg-text');
 
 
             $chat.append($divmsgrm

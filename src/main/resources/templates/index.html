@@ -51,7 +51,7 @@
         <div class="side-bar" th:if="${not #lists.isEmpty(friendsLists)}">
             <section class="container" th:each="result : ${friendsLists}">
                 <div class="list-item">
-                    <div class="item-content">
+                    <div class="item-content new-message">
                         <a th:href="${result.id}" th:text="${result.firstName+ ' '+ result.lastName }"></a>
                     </div>
                 </div>
@@ -59,21 +59,14 @@
         </div>
         <div class="main-content">
 
-            <!--<section class="notifiy" th:if="${not #lists.isEmpty(friendrequest)}">-->
-                <!--<div class="requestbody" th:each="result : ${friendrequest}">-->
-                        <!--<div class="request" th:text="${result.firstName + ' ' + result.lastName}">-->
 
-                        <!--</div>-->
-                <!--</div>-->
-            <!--</section>-->
+            <section class="notifiy" th:if="${not #lists.isEmpty(friendrequest)}">
+                <div class="requestbody" th:each="result : ${friendrequest}">
+                    <div class ="request" th:text="${result.firstName + ' ' + result.lastName}">
 
-            <!--<section class="notifiy" th:if="${not #lists.isEmpty(friendrequest)}">-->
-                <!--<div class="requestbody" th:each="result : ${friendrequest}">-->
-                    <!--<div class =request th:text="${result.firstName+ ' ' + result.lastName}">-->
-
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</section>-->
+                    </div>
+                </div>
+            </section>
 
 
             <section class="notifiy" th:if="${not #lists.isEmpty(unreadMessages)}">
@@ -86,7 +79,7 @@
 
 
 
-            <section class="msger" th:if="${not #lists.isEmpty(messagehistory)}" >
+            <section class="msger"  th:if="${friend != null}">
                 <header class="msger-header">
                     <div class="msger-header-title" th:text="${friend.firstName+ ' ' + friend.lastName}">
 
@@ -98,11 +91,11 @@
                     <div class="msg left-msg" th:if="${result.messageToId == loggedInUserId }">
                         <div class="msg-bubble" >
                             <div class="msg-info">
-                                <div class="msg-info-time" th:text="${result.registerDate}">12:45</div>
+                                <div class="msg-info-time" th:text="${result.registerDate}"></div>
                             </div>
 
                             <div class="msg-text" th:text="${result.message}">
-                                en namak@ vor@ uxarkela @ngert
+
                             </div>
                         </div>
                     </div>
@@ -110,10 +103,10 @@
                     <div class="msg right-msg" th:if="${result.messageFromId == loggedInUserId}">
                         <div class="msg-bubble" >
                             <div class="msg-info">
-                                <div class="msg-info-time" th:text="${result.registerDate}">12:46</div>
+                                <div class="msg-info-time" th:text="${result.registerDate}"></div>
                             </div>
                             <div class="msg-text" th:text="${result.message}">
-                                qo uxarkac namak@
+
                             </div>
                         </div>
                     </div>
@@ -122,7 +115,8 @@
 
                 <section class="msger-inputarea">
                     <input id = "txtMessage" type="text" class="msger-input" placeholder="Enter your message..." />
-                    <button class="msger-send-btn" th:onclick="'javascript:sendMessage(' + ${friendId} + ')'">Send</button>
+                    <input type="hidden" id = "friend" th:value="${friend.userId}" />
+                    <button class="msger-send-btn" th:onclick="'javascript:sendMessage'">Send</button>
                 </section>
             </section>
 

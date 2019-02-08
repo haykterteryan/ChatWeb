@@ -1,14 +1,18 @@
 package am.springboot.chat.Configuration;
 
 import am.springboot.chat.Servise.UserService;
+import am.springboot.chat.domain.UserDomain;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
@@ -34,11 +38,11 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/login", "/register").permitAll()
 //                .antMatchers("/").authenticated()
-                .antMatchers("/**").access("hasRole('USER')")
+                .antMatchers("/").access("hasRole('USER')")
                 .antMatchers("/admin").access("hasRole('ADMIN')")
                 .and()
                 .authenticationProvider(daoAuthenticationProvider())
-                .sessionManagement().maximumSessions(1).sessionRegistry(sessionRegistry());
+                .sessionManagement().maximumSessions(10).sessionRegistry(sessionRegistry());
         httpSecurity.csrf().disable();
         httpSecurity.logout().permitAll();
     }
@@ -55,4 +59,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         authenticationProvider.setPasswordEncoder(passwordEncoder);
         return authenticationProvider;
     }
+
+
 }

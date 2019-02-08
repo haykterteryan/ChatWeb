@@ -31,14 +31,6 @@ public class LoginController {
     public String login(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if(!(authentication instanceof AnonymousAuthenticationToken)) {
-
-            Object principal = authentication.getPrincipal();
-            int id;
-            if(principal instanceof User){
-                id = ((UserDomain) principal).getUserId();
-            }
-            else{id = -1;}
-
             return "redirect:/" ;
         }
 

@@ -45,7 +45,7 @@ public class UsersDao {
 
     public UserDto getUserName(int userId) {
         UserEntity userEntity = userRepository.getByUserId(userId);
-        return new UserDto(userEntity.getFirstName(),userEntity.getLastName());
+        return new UserDto(userEntity.getUserId(),userEntity.getFirstName(),userEntity.getLastName());
     }
 
     public List<UserDto> getUnreadMessages(int loggedInUserId) {
@@ -53,13 +53,13 @@ public class UsersDao {
         List<UserDto> userDtos = new ArrayList<>();
         List<UserEntity> userEntities = userRepository.findByUserIdDistinct(loggedInUserId);
 
-        for (UserEntity userEntity : userEntities
-             ) {
-            userDtos.add(new UserDto(userEntity.getFirstName(),userEntity.getLastName()));
-        }
-//  userRepository.findByUserIdDistinct(loggedInUserId).stream().
-//                map(userEntity -> (userDtos.add(new UserDto(userEntity.getFirstName(),
-//                        userEntity.getLastName()))));
+//        for (UserEntity userEntity : userEntities
+//             ) {
+//            userDtos.add(new UserDto(userEntity.getFirstName(),userEntity.getLastName()));
+//        }
+        userRepository.findByUserIdDistinct(loggedInUserId).stream().
+                map(userEntity -> (userDtos.add(new UserDto(userEntity.getFirstName(),
+                        userEntity.getLastName()))));
 
         return userDtos;
     }
