@@ -7,7 +7,9 @@ import am.springboot.chat.DTO.UserDto;
 import am.springboot.chat.Dao.FriendRequestDao;
 import am.springboot.chat.Dao.MessageDao;
 import am.springboot.chat.Dao.UsersDao;
+import am.springboot.chat.domain.RequestAnswer;
 import am.springboot.chat.domain.UserDomain;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
@@ -92,20 +94,19 @@ public class HomeController {
     }
 
 
-    @GetMapping(value = "request")
-    public String sendFriendRequest(int toId){
-
-        friendRequestDao.sendFriendRequest(loggedInUserId,toId);
-        return null;
-    }
-
-//    @GetMapping()
-//    public String acceptOrDeniedFriendRequest(int id, int accept){
+//    @GetMapping(value = "request")
+//    public String sendFriendRequest(int toId){
 //
-//        friendRequestDao.acceptOrDeniedFriendRequest(loggedInUserId,id,accept);
-//
+//        friendRequestDao.sendFriendRequest(loggedInUserId,toId);
 //        return null;
 //    }
+
+    @PostMapping(value = "request", consumes = "application/json")
+    public ResponseEntity<?> request(@RequestBody RequestAnswer requestAnswer){
+        getUserId();
+        friendRequestDao.acceptOrDeniedFriendRequest(requestAnswer.getIsAccept(),loggedInUserId,requestAnswer.getUserId());
+        return ResponseEntity.ok().build();
+    }
 
 
 }

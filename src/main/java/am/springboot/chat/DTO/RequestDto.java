@@ -11,7 +11,8 @@ public class RequestDto {
     private String firstName;
     private String lastName;
 
-    public RequestDto(String firstName, String lastName) {
+    public RequestDto(int requestFromid,String firstName, String lastName) {
+        this.requestFromid= requestFromid;
         this.firstName = firstName;
         this.lastName = lastName;
     }

@@ -24,7 +24,7 @@ public class UsersDao {
         List<UserEntity> userEntities = userRepository.searchById(name,loggedInUserId);
 
         for (UserEntity userEntity : userEntities) {
-            userDtos.add(new UserDto(userEntity.getFirstName(),userEntity.getLastName()));
+            userDtos.add(new UserDto(userEntity.getUserId(),userEntity.getFirstName(),userEntity.getLastName()));
         }
 
         return userDtos;
@@ -52,12 +52,9 @@ public class UsersDao {
         List<UserDto> userDtos = new ArrayList<>();
         List<UserEntity> userEntities = userRepository.findByUserIdDistinct(loggedInUserId);
 
-//        for (UserEntity userEntity : userEntities
-//             ) {
-//            userDtos.add(new UserDto(userEntity.getFirstName(),userEntity.getLastName()));
-//        }
-        userRepository.findByUserIdDistinct(loggedInUserId).stream().
-                map(userEntity -> (userDtos.add(new UserDto(userEntity.getFirstName(),
+        userRepository.findByUserIdDistinct(loggedInUserId)
+                .stream()
+                .map(userEntity -> (userDtos.add(new UserDto(userEntity.getFirstName(),
                         userEntity.getLastName()))));
 
         return userDtos;

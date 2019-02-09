@@ -33,14 +33,14 @@ public class FriendRequestDao {
         List<RequestDto> requestDtos = new ArrayList<>();
         for (UserEntity userEntity:
              friendRequestEntities) {
-            requestDtos.add(new RequestDto(userEntity.getFirstName(),userEntity.getLastName()));
+            requestDtos.add(new RequestDto(userEntity.getUserId(),userEntity.getFirstName(),userEntity.getLastName()));
         }
 
         return requestDtos;
     }
 
-    public void acceptOrDeniedFriendRequest(int loggedInUserId, int id, int accept) {
-        String query = "UPDATE friend_request SET readed=1, aproved=?" +
+    public void acceptOrDeniedFriendRequest(int accept,int loggedInUserId, int id ) {
+        String query = "UPDATE friend_request SET readed=1, aproved=? " +
                 "where request_to_id = ? and request_from_id = ?";
 
         jdbcTemplate.update(query,accept,loggedInUserId,id);

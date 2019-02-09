@@ -39,8 +39,6 @@ function sendMessage() {
     send(message,friendId);
 }
 
-
-
 function send(message,personId) {
 
     var mess = {
@@ -72,4 +70,19 @@ function send(message,personId) {
     });
 }
 
-
+function friendRequest(userId, isAccept) {
+    var request = {
+            userId: userId,
+            isAccept: isAccept
+        }
+        console.log(request);
+    return $.ajax('/request',{
+        type: "POST",
+        data: JSON.stringify(request),
+        contentType: "application/json",
+        xhrFields: {
+            withCredentials: true
+        },
+        success: alert(request)
+    });
+}
