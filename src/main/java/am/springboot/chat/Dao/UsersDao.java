@@ -52,10 +52,10 @@ public class UsersDao {
         List<UserDto> userDtos = new ArrayList<>();
         List<UserEntity> userEntities = userRepository.findByUserIdDistinct(loggedInUserId);
 
-        userRepository.findByUserIdDistinct(loggedInUserId)
-                .stream()
-                .map(userEntity -> (userDtos.add(new UserDto(userEntity.getFirstName(),
-                        userEntity.getLastName()))));
+        for (UserEntity userEntity : userEntities
+             ) {
+            userDtos.add(new UserDto(userEntity.getFirstName(),userEntity.getLastName()));
+        }
 
         return userDtos;
     }

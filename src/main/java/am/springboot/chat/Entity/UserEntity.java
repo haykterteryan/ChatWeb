@@ -23,7 +23,7 @@ public class UserEntity  {
     @Column
     private String userPassword;
 
-    @Column(name ="first_name ", insertable = false, updatable = false)
+    @Column(name ="first_name ")
     private String firstName;
 
     @Column(name = "last_name")

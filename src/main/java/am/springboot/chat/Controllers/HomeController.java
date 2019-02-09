@@ -7,6 +7,7 @@ import am.springboot.chat.DTO.UserDto;
 import am.springboot.chat.Dao.FriendRequestDao;
 import am.springboot.chat.Dao.MessageDao;
 import am.springboot.chat.Dao.UsersDao;
+import am.springboot.chat.domain.FriendRequest;
 import am.springboot.chat.domain.RequestAnswer;
 import am.springboot.chat.domain.UserDomain;
 import org.springframework.http.ResponseEntity;
@@ -93,13 +94,11 @@ public class HomeController {
         return modelAndView;
     }
 
-
-//    @GetMapping(value = "request")
-//    public String sendFriendRequest(int toId){
-//
-//        friendRequestDao.sendFriendRequest(loggedInUserId,toId);
-//        return null;
-//    }
+    @PostMapping(value = "friendrequest", consumes = "application/json")
+    public String sendFriendRequest(@RequestBody FriendRequest friendRequest){
+        friendRequestDao.sendFriendRequest(loggedInUserId,friendRequest.getUserId());
+        return null;
+    }
 
     @PostMapping(value = "request", consumes = "application/json")
     public ResponseEntity<?> request(@RequestBody RequestAnswer requestAnswer){

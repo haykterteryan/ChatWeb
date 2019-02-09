@@ -54,6 +54,7 @@ a {
 .side-bar {
     display: flex;
     flex-basis: 20%;
+    flex-direction: column;
     justify-content: flex-start;
 }
 
@@ -61,4 +62,16 @@ a {
     display: flex;
     flex-basis: 80%;
     justify-content: flex-end;
+}
+
+.chat-content {
+    display: flex;
+    flex-grow: 1;
+    flex-basis: 70%;
+}
+
+.notification-content {
+    display: flex;
+    flex-grow: 1;
+    flex-basis: 30%;
 }

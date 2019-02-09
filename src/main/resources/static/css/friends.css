@@ -4,27 +4,31 @@
 
 .container {
     display: flex;
-    flex-grow: 1;
+    flex-grow: 0;
 }
 
 .list-item {
     display: flex;
-    padding: 20px;
+    padding: 10px;
 }
 
 .item-content {
     display: flex;
-    padding: 20px;
+    flex-grow: 0;
+    padding: 10px 20px;
     border: 0 solid rgba(123, 123, 123, 0.498039);
     border-radius: 4px;
     color: #999999;
-    line-height: 90px;
-    font-size: 24px;
+    font-size: 16px;
     font-weight: 400;
     background-color: white;
     box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px 0;
 }
 
 .new-message::after {
-    content: "message"
+    content: "message";
+    color: rgba(234, 22, 22, 0.8);
+    position: relative;
+    top: -20px;
+    left: 15px;
 }

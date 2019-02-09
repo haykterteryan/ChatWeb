@@ -86,3 +86,19 @@ function friendRequest(userId, isAccept) {
         success: alert(request)
     });
 }
+
+function sendFriendRequest(userId) {
+    var request = {
+        userId: userId
+    }
+    console.log(request);
+    return $.ajax('/friendrequest',{
+        type: "POST",
+        data: JSON.stringify(request),
+        contentType: "application/json",
+        xhrFields: {
+            withCredentials: true
+        },
+        success: alert(request)
+    });
+}

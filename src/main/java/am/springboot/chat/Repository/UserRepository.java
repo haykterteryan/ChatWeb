@@ -14,9 +14,9 @@ public interface UserRepository extends CrudRepository<UserEntity,Long> {
     Optional<UserEntity> findByUserLogin(String login);
 
     @Query("Select users from UserEntity users " +
-            "inner join users.friendsEntity user " +
+            "inner join users.friendsEntity friend " +
             "where (users.firstName = :name or users.lastName = :name) and" +
-            " (user.userId != :id or user.friendId != :id)")
+            " (friend.userId <> :id and friend.friendId <> :id)")
     List<UserEntity> searchById(@Param("name") String name, @Param("id") int id);
 
     @Query("Select users from UserEntity users " +

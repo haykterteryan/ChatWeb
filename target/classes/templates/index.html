@@ -37,80 +37,73 @@
         </div>
         <div class="main-content">
 
+            <div class="chat-content">
+                <div th:if="${not #lists.isEmpty(searchresult)}">
+                    <div class="requestbody" th:each="result : ${searchresult}">
+                        <div class ="request" th:text="${result.firstName + ' ' + result.lastName}" />
+                        <button class="accept-send-btn" th:onclick="'javascript:sendFriendRequest(\'' + ${result.userId} +'\')'">Send Friend Request</button>
 
-            <div th:if="${not #lists.isEmpty(searchresult)}">
-                <table class="table table-striped">
-                    <tr>
-                        <th>First Name</th>
-                        <th>Last Name</th>
-                    </tr>
-                    <tr th:each="result : ${searchresult}">
-                        <td th:text="${result.firstName}"></td>
-                        <td th:text="${result.lastName}"></td>
-                    </tr>
-                </table>
+                    </div>
+                </div>
+                <section class="msger"  th:if="${friend != null}">
+                    <header class="msger-header">
+                        <div class="msger-header-title" th:text="${friend.firstName+ ' ' + friend.lastName}">
+
+                        </div>
+                    </header>
+
+                    <main id="chat" class="msger-chat" >
+                        <div th:each="result : ${messagehistory}">
+                            <div class="msg left-msg" th:if="${result.messageToId == loggedInUserId }">
+                                <div class="msg-bubble" >
+                                    <div class="msg-info">
+                                        <div class="msg-info-time" th:text="${result.registerDate}"></div>
+                                    </div>
+
+                                    <div class="msg-text" th:text="${result.message}">
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="msg right-msg" th:if="${result.messageFromId == loggedInUserId}">
+                                <div class="msg-bubble" >
+                                    <div class="msg-info">
+                                        <div class="msg-info-time" th:text="${result.registerDate}"></div>
+                                    </div>
+                                    <div class="msg-text" th:text="${result.message}">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </main>
+
+                    <section class="msger-inputarea">
+                        <input id = "txtMessage" type="text" class="msger-input" placeholder="Enter your message..." />
+                        <input type="hidden" id = "friend" th:value="${friend.userId}" />
+                        <button class="msger-send-btn" th:onclick="'javascript:sendMessage()'">Send</button>
+                    </section>
+                </section>
             </div>
 
-            <section class="notifiy" th:if="${not #lists.isEmpty(friendrequest)}">
-                <div class="requestbody" th:each="result : ${friendrequest}">
-                    <div class ="request" th:text="${result.firstName + ' ' + result.lastName}" />
-                    <button class="accept-send-btn" th:onclick="'javascript:friendRequest(\'' + ${result.requestFromid} +'\',\''+ ${1} + '\')'">Accept</button>
-                    <button class="denied-send-btn" th:onclick="'javascript:friendRequest(\'' + ${result.requestFromid} +'\',\''+ ${0} + '\')'">Denied</button>
-                </div>
-            </section>
+            <div class="notification-content">
 
-
-            <section class="notifiy" th:if="${not #lists.isEmpty(unreadMessages)}">
-                <div class="unread-msg-body" th:each="result : ${unreadMessages}">
-                    <div class ="msg-from" th:text="${'You have message from ' + result.firstName + ' ' + result.lastName}">
-
+                <section th:if="${not #lists.isEmpty(friendrequest)}">
+                    <div class="requestbody" th:each="result : ${friendrequest}">
+                        <div class ="request" th:text="${result.firstName + ' ' + result.lastName}" />
+                        <button class="accept-send-btn" th:onclick="'javascript:friendRequest(\'' + ${result.requestFromid} +'\',\''+ ${1} + '\')'">Accept</button>
+                        <button class="denied-send-btn" th:onclick="'javascript:friendRequest(\'' + ${result.requestFromid} +'\',\''+ ${0} + '\')'">Denied</button>
                     </div>
-                </div>
-            </section>
-
-
-
-            <section class="msger"  th:if="${friend != null}">
-                <header class="msger-header">
-                    <div class="msger-header-title" th:text="${friend.firstName+ ' ' + friend.lastName}">
-
-                    </div>
-                </header>
-
-                <main id="chat" class="msger-chat" >
-                    <div th:each="result : ${messagehistory}">
-                    <div class="msg left-msg" th:if="${result.messageToId == loggedInUserId }">
-                        <div class="msg-bubble" >
-                            <div class="msg-info">
-                                <div class="msg-info-time" th:text="${result.registerDate}"></div>
-                            </div>
-
-                            <div class="msg-text" th:text="${result.message}">
-
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="msg right-msg" th:if="${result.messageFromId == loggedInUserId}">
-                        <div class="msg-bubble" >
-                            <div class="msg-info">
-                                <div class="msg-info-time" th:text="${result.registerDate}"></div>
-                            </div>
-                            <div class="msg-text" th:text="${result.message}">
-
-                            </div>
-                        </div>
-                    </div>
-                  </div>
-                </main>
-
-                <section class="msger-inputarea">
-                    <input id = "txtMessage" type="text" class="msger-input" placeholder="Enter your message..." />
-                    <input type="hidden" id = "friend" th:value="${friend.userId}" />
-                    <button class="msger-send-btn" th:onclick="'javascript:sendMessage()'">Send</button>
                 </section>
-            </section>
 
+                <section class="notifiy" th:if="${not #lists.isEmpty(unreadMessages)}">
+                    <div class="unread-msg-body" th:each="result : ${unreadMessages}">
+                        <div class ="msg-from" th:text="${'You have message from ' + result.firstName + ' ' + result.lastName}" />
+                    </div>
+                </section>
+
+            </div>
 
         </div>
     </div>
