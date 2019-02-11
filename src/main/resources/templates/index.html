@@ -15,7 +15,7 @@
     <div class="header">
         <div class="left"></div>
         <div class="center">
-            <form class="example"  method="get" style="margin:auto;max-width:300px">
+            <form class="example" action="/"  method="get" style="margin:auto;max-width:300px">
                 <input type="text" placeholder="Search by Name" name="search"/>
                 <button type="submit">Search</button>
 
@@ -26,13 +26,15 @@
         </div>
     </div>
     <div class="body">
-        <div class="side-bar" th:if="${not #lists.isEmpty(friendsLists)}">
-            <section class="container" th:each="result : ${friendsLists}">
+        <div class="side-bar" th:if="${not #lists.isEmpty(friendDtos)}">
+            <section class="container" th:each="result : ${friendDtos}">
+
                 <div class="list-item">
-                    <div class="item-content new-message">
-                        <a th:href="${result.id}" th:text="${result.firstName+ ' '+ result.lastName }"></a>
+                    <div class="item-content new-message" >
+                        <a th:href="${result.id}" th:text="${result.firstName + ' ' + result.lastName }"></a>
                     </div>
                 </div>
+
             </section>
         </div>
         <div class="main-content">
@@ -102,7 +104,6 @@
                     </div>
                 </section>
             </div>
-
         </div>
     </div>
 </div>

@@ -15,7 +15,7 @@
     <div class="header">
         <div class="left"></div>
         <div class="center">
-            <form class="example"  method="get" style="margin:auto;max-width:300px">
+            <form class="example" action="/"  method="get" style="margin:auto;max-width:300px">
                 <input type="text" placeholder="Search by Name" name="search"/>
                 <button type="submit">Search</button>
 
@@ -26,26 +26,29 @@
         </div>
     </div>
     <div class="body">
-        <div class="side-bar" th:if="${not #lists.isEmpty(friendsLists)}">
-            <section class="container" th:each="result : ${friendsLists}">
+        <div class="side-bar" th:if="${not #lists.isEmpty(friendDtos)}">
+            <section class="container" th:each="result : ${friendDtos}">
+
                 <div class="list-item">
-                    <div class="item-content new-message">
-                        <a th:href="${result.id}" th:text="${result.firstName+ ' '+ result.lastName }"></a>
+                    <div class="item-content new-message" >
+                        <a th:href="${result.id}" th:text="${result.firstName + ' ' + result.lastName }"></a>
                     </div>
                 </div>
+
             </section>
         </div>
         <div class="main-content">
 
             <div class="chat-content">
                 <div th:if="${not #lists.isEmpty(searchresult)}">
-                    <div class="requestbody" th:each="result : ${searchresult}">
+                    <div th:each="result : ${searchresult}">
                         <div class ="request" th:text="${result.firstName + ' ' + result.lastName}" />
-                        <button class="accept-send-btn" th:onclick="'javascript:sendFriendRequest(\'' + ${result.userId} +'\')'">Send Friend Request</button>
-
+                        <button th:onclick="'javascript:sendFriendRequest(\'' + ${result.userId} +'\')'">
+                            Send Friend Request
+                        </button>
                     </div>
                 </div>
-                <section class="msger"  th:if="${friend != null}">
+                <section class="msger" th:if="${friend != null}">
                     <header class="msger-header">
                         <div class="msger-header-title" th:text="${friend.firstName+ ' ' + friend.lastName}">
 
@@ -88,7 +91,6 @@
             </div>
 
             <div class="notification-content">
-
                 <section th:if="${not #lists.isEmpty(friendrequest)}">
                     <div class="requestbody" th:each="result : ${friendrequest}">
                         <div class ="request" th:text="${result.firstName + ' ' + result.lastName}" />
@@ -96,15 +98,12 @@
                         <button class="denied-send-btn" th:onclick="'javascript:friendRequest(\'' + ${result.requestFromid} +'\',\''+ ${0} + '\')'">Denied</button>
                     </div>
                 </section>
-
-                <section class="notifiy" th:if="${not #lists.isEmpty(unreadMessages)}">
-                    <div class="unread-msg-body" th:each="result : ${unreadMessages}">
+                <section th:if="${not #lists.isEmpty(unreadMessages)}">
+                    <div th:each="result : ${unreadMessages}">
                         <div class ="msg-from" th:text="${'You have message from ' + result.firstName + ' ' + result.lastName}" />
                     </div>
                 </section>
-
             </div>
-
         </div>
     </div>
 </div>

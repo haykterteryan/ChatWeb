@@ -36,23 +36,28 @@ stompClient.connect({}, function (frame) {
 
 function sendMessage() {
     var message = $txtMessage.val();
+console.log('DDD', $txtMessage.val());
+    if ($txtMessage.val() === "") {
+        alert("Please type message!");
+        return false;
+    }
     send(message,friendId);
 }
 
 function send(message,personId) {
-
     var mess = {
         message:message,
         personId:personId
-    }
+    };
+
     $.ajax('/api/send', {
         type: 'POST',
         data: JSON.stringify(mess),
-        // dataType: "json",
         contentType: "application/json",
         xhrFields: {
             withCredentials: true
         },
+
         success: function (response) {
             var $divmsgrm = $('<div/>').addClass('msg right-msg');
             var $divmsgbubble = $('<div/>').addClass('msg-bubble');
@@ -74,8 +79,8 @@ function friendRequest(userId, isAccept) {
     var request = {
             userId: userId,
             isAccept: isAccept
-        }
-        console.log(request);
+        };
+
     return $.ajax('/request',{
         type: "POST",
         data: JSON.stringify(request),
@@ -90,8 +95,8 @@ function friendRequest(userId, isAccept) {
 function sendFriendRequest(userId) {
     var request = {
         userId: userId
-    }
-    console.log(request);
+    };
+
     return $.ajax('/friendrequest',{
         type: "POST",
         data: JSON.stringify(request),

@@ -36,6 +36,11 @@ stompClient.connect({}, function (frame) {
 
 function sendMessage() {
     var message = $txtMessage.val();
+console.log('DDD', $txtMessage.val());
+    if ($txtMessage.val() === "") {
+        alert("Please type message!");
+        return false;
+    }
     send(message,friendId);
 }
 
