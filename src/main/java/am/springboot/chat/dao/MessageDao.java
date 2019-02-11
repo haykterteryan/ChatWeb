@@ -25,8 +25,8 @@ public class MessageDao {
 
     }
 
-    public void markUnreadMessagesAsReaded(int friendId) {
-        String query ="UPDATE messages SET readed = true where message_from_id = ?";
-        jdbcTemplate.update(query,friendId);
+    public void markUnreadMessagesAsReaded(int loggedInUserId,int friendId) {
+        String query ="UPDATE messages SET readed = true where message_to_id = ? and message_from_id = ?";
+        jdbcTemplate.update(query,loggedInUserId,friendId);
     }
 }

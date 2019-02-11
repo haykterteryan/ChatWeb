@@ -18,6 +18,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.xml.bind.SchemaOutputResolver;
 import java.util.List;
 
 
@@ -93,7 +94,7 @@ public class HomeController {
         }
         List<MessageDto> messageHistory = messageService.getMessageHistory(loggedInUserId,id);
         friendDtos = userService.getFriendsList(loggedInUserId);
-        messageDao.markUnreadMessagesAsReaded(id);
+        messageDao.markUnreadMessagesAsReaded(loggedInUserId,id);
 
         ModelAndView modelAndView = new ModelAndView("index");
 
@@ -119,4 +120,9 @@ public class HomeController {
     }
 
 
+    @PostMapping(value = "markAsReaded",consumes = "text/plain")
+    public void markAsReaded(@RequestBody String persionId){
+        System.out.println("marking as readed");
+        messageDao.markUnreadMessagesAsReaded(loggedInUserId,Integer.parseInt(persionId));
+    }
 }

@@ -15,8 +15,10 @@ stompClient.connect({}, function (frame) {
     stompClient.subscribe('/user/message', function (data) {
         var body = JSON.parse(data.body);
         var message = body.message;
-        var persionId = body.personId;
-        if(persionId == friendId) {
+        var receiverId = body.receiverId;
+        var senderId = body.senderId;
+        console.log(receiverId ,  friendId);
+        if(senderId == friendId) {
             var $divmsgrm = $('<div/>').addClass('msg left-msg');
             var $divmsgbubble = $('<div/>').addClass('msg-bubble');
             var $divmsginfo = $('<div/>').addClass('msg-info');
@@ -28,11 +30,27 @@ stompClient.connect({}, function (frame) {
             $chat.append($divmsgrm
                 .append($divmsgbubble.append($divmsginfo.append($divmsginfotime))
                     .append($divmsgtext.append(message))));
+
+            markAsReaded(senderId);
         }else {
             alert("you have new message");
         }
     });
 });
+
+function markAsReaded(persionId) {
+    $.ajax('/markAsReaded', {
+        type: 'POST',
+        data: persionId.toString(),
+        contentType: "text/plain",
+        xhrFields: {
+            withCredentials: true
+        }
+
+    })
+}
+
+
 
 function sendMessage() {
     var message = $txtMessage.val();
@@ -43,10 +61,11 @@ function sendMessage() {
     send(message,friendId);
 }
 
-function send(message,personId) {
+function send(message,receiverId) {
     var mess = {
         message:message,
-        personId:personId
+        receiverId: receiverId,
+        senderId: 0
     };
 
     $.ajax('/api/send', {

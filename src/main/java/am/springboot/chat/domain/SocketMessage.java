@@ -7,7 +7,10 @@ public class SocketMessage {
 
     @JsonProperty()
     private String message;
-    private int personId;
+
+    private int receiverId;
+
+    private int senderId;
 
     public String getMessage() {
         return message;
@@ -17,12 +20,20 @@ public class SocketMessage {
         this.message = message;
     }
 
-    public int getPersonId() {
-        return personId;
+    public int getReceiverId() {
+        return receiverId;
     }
 
-    public void setPersonId(int personId) {
-        this.personId = personId;
+    public void setReceiverId(int receiverId) {
+        this.receiverId = receiverId;
+    }
+
+    public int getSenderId() {
+        return senderId;
+    }
+
+    public void setSenderId(int senderId) {
+        this.senderId = senderId;
     }
 }
 
