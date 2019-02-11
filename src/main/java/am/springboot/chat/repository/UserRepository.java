@@ -38,5 +38,4 @@ public interface UserRepository extends CrudRepository<UserEntity,Long> {
 
     UserEntity getByUserId(int id);
 
-
 }

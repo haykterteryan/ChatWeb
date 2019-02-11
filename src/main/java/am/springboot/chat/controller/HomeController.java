@@ -52,7 +52,7 @@ public class HomeController {
         List<UserDto> userDtos = usersDao.loadUserByname(name,loggedInUserId);
 
         modelAndView.addObject("searchresult", userDtos);
-        modelAndView.addObject("friendsLists", friendDtos);
+        modelAndView.addObject("friendDtos", friendDtos);
         return  modelAndView;
     }
 
@@ -80,13 +80,16 @@ public class HomeController {
 
         getUserId();
 
+        if(!(friendRequestDao.checkFriendship(loggedInUserId,id))){
+        return new ModelAndView("redirect:/");
+        }
         List<MessageDto> messageHistory = messageDao.getMessageHistory(loggedInUserId,id);
         friendDtos = usersDao.getFriendsList(loggedInUserId);
         messageDao.markUnreadMessagesAsReaded(id);
 
         ModelAndView modelAndView = new ModelAndView("index");
 
-        modelAndView.addObject("friendsLists", friendDtos);
+        modelAndView.addObject("friendDtos", friendDtos);
         modelAndView.addObject("messagehistory",messageHistory);
         modelAndView.addObject("loggedInUserId", loggedInUserId);
         modelAndView.addObject("friend",usersDao.getUserName(id));

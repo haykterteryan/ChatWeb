@@ -1,7 +1,9 @@
 package am.springboot.chat.dao;
 
 import am.springboot.chat.dto.RequestDto;
+import am.springboot.chat.entity.FriendRequestEntity;
 import am.springboot.chat.entity.UserEntity;
+import am.springboot.chat.repository.FriendRequestRepository;
 import am.springboot.chat.repository.UserRepository;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -15,10 +17,12 @@ public class FriendRequestDao {
 
     UserRepository userRepository;
     private final JdbcTemplate jdbcTemplate;
+    FriendRequestRepository friendRequestRepository;
 
-    public FriendRequestDao(UserRepository userRepository, JdbcTemplate jdbcTemplate) {
+    public FriendRequestDao(UserRepository userRepository, JdbcTemplate jdbcTemplate,FriendRequestRepository friendRequestRepository) {
         this.userRepository = userRepository;
         this.jdbcTemplate = jdbcTemplate;
+        this.friendRequestRepository = friendRequestRepository;
     }
 
 
@@ -56,5 +60,11 @@ public class FriendRequestDao {
         String query = "Insert into friends(user_id,friend_id) values (?,?)" ;
 
         jdbcTemplate.update(query,loggedInUserId,id);
+    }
+
+
+    public boolean checkFriendship(int loggedInUserId, int id) {
+        return friendRequestRepository.findBy(loggedInUserId,id) !=null;
+
     }
 }
