@@ -6,10 +6,12 @@ import am.springboot.chat.dto.RequestDto;
 import am.springboot.chat.dto.UserDto;
 import am.springboot.chat.dao.FriendRequestDao;
 import am.springboot.chat.dao.MessageDao;
-import am.springboot.chat.dao.UsersDao;
 import am.springboot.chat.domain.FriendRequest;
 import am.springboot.chat.domain.RequestAnswer;
 import am.springboot.chat.domain.UserDomain;
+import am.springboot.chat.service.FriendRequestService;
+import am.springboot.chat.service.MessageService;
+import am.springboot.chat.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -24,15 +26,21 @@ import java.util.List;
 public class HomeController {
 
     private List<FriendDto> friendDtos;
-    private UsersDao usersDao;
+    private final UserService userService;
+    private final MessageService messageService;
+    private final FriendRequestService friendRequestService;
     private int loggedInUserId;
-    private MessageDao messageDao;
-    private FriendRequestDao friendRequestDao;
+    private final MessageDao messageDao;
+    private final FriendRequestDao friendRequestDao;
 
-    public HomeController(UsersDao usersDao, MessageDao messageDao,FriendRequestDao friendRequestDao) {
-        this.usersDao = usersDao;
+    public HomeController(UserService userService, MessageService messageService,
+                          FriendRequestService friendRequestService, MessageDao messageDao,
+                          FriendRequestDao friendRequestDao) {
+        this.userService = userService;
+        this.messageService = messageService;
+        this.friendRequestService = friendRequestService;
         this.messageDao = messageDao;
-        this.friendRequestDao =friendRequestDao;
+        this.friendRequestDao = friendRequestDao;
     }
 
     private  void getUserId() {
@@ -49,7 +57,7 @@ public class HomeController {
 
         ModelAndView modelAndView = new ModelAndView("index");
 
-        List<UserDto> userDtos = usersDao.loadUserByname(name,loggedInUserId);
+        List<UserDto> userDtos = userService.loadUserByname(name,loggedInUserId);
 
         modelAndView.addObject("searchresult", userDtos);
         modelAndView.addObject("friendDtos", friendDtos);
@@ -61,9 +69,9 @@ public class HomeController {
 
         getUserId();
 
-        List<RequestDto> requestDtos = friendRequestDao.getFriendRequest(loggedInUserId);
-        List<UserDto> unreadMessages = usersDao.getUnreadMessages(loggedInUserId);
-        friendDtos = usersDao.getFriendsList(loggedInUserId);
+        List<RequestDto> requestDtos = friendRequestService.getFriendRequest(loggedInUserId);
+        List<UserDto> unreadMessages = userService.getUnreadMessages(loggedInUserId);
+        friendDtos = userService.getFriendsList(loggedInUserId);
 
         ModelAndView modelAndView = new ModelAndView("index");
 
@@ -80,11 +88,11 @@ public class HomeController {
 
         getUserId();
 
-        if(!(friendRequestDao.checkFriendship(loggedInUserId,id))){
+        if(!(friendRequestService.checkFriendship(loggedInUserId,id))){
         return new ModelAndView("redirect:/");
         }
-        List<MessageDto> messageHistory = messageDao.getMessageHistory(loggedInUserId,id);
-        friendDtos = usersDao.getFriendsList(loggedInUserId);
+        List<MessageDto> messageHistory = messageService.getMessageHistory(loggedInUserId,id);
+        friendDtos = userService.getFriendsList(loggedInUserId);
         messageDao.markUnreadMessagesAsReaded(id);
 
         ModelAndView modelAndView = new ModelAndView("index");
@@ -92,7 +100,7 @@ public class HomeController {
         modelAndView.addObject("friendDtos", friendDtos);
         modelAndView.addObject("messagehistory",messageHistory);
         modelAndView.addObject("loggedInUserId", loggedInUserId);
-        modelAndView.addObject("friend",usersDao.getUserName(id));
+        modelAndView.addObject("friend",userService.getUserName(id));
 
         return modelAndView;
     }

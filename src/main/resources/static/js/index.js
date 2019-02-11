@@ -29,14 +29,13 @@ stompClient.connect({}, function (frame) {
                 .append($divmsgbubble.append($divmsginfo.append($divmsginfotime))
                     .append($divmsgtext.append(message))));
         }else {
-            console.log("you have new message");
+            alert("you have new message");
         }
     });
 });
 
 function sendMessage() {
     var message = $txtMessage.val();
-console.log('DDD', $txtMessage.val());
     if ($txtMessage.val() === "") {
         alert("Please type message!");
         return false;

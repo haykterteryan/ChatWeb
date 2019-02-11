@@ -12,26 +12,12 @@ import java.util.List;
 @Repository
 public class MessageDao {
 
-    MessageRepository messageRepository;
     private final JdbcTemplate jdbcTemplate;
 
-    public MessageDao( JdbcTemplate jdbcTemplate, MessageRepository messageRepository) {
-        this.messageRepository = messageRepository;
+    public MessageDao( JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-
-    public List<MessageDto> getMessageHistory(int loggedInUserId, int friendId) {
-        List<MessagesEntity> messagesEntities = messageRepository.findBy(loggedInUserId,friendId);
-        List<MessageDto> messageDtos = new ArrayList<>();
-
-        for (MessagesEntity messagesEntity : messagesEntities) {
-            messageDtos.add(new MessageDto(messagesEntity.getMessageFromId(),
-                    messagesEntity.getMessageToId(),
-                    messagesEntity.getMessage(),messagesEntity.getRegisterDate()));
-        }
-        return messageDtos;
-    }
 
     public boolean sendMessageToDb(int loggedInUserId, int toId, String message,boolean readed) {
         String query ="insert into messages(message_from_id, message_to_id, message, readed) values (?,?,?,?) ";
@@ -40,7 +26,6 @@ public class MessageDao {
     }
 
     public void markUnreadMessagesAsReaded(int friendId) {
-
         String query ="UPDATE messages SET readed = true where message_from_id = ?";
         jdbcTemplate.update(query,friendId);
     }

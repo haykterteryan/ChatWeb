@@ -32,16 +32,6 @@ public class FriendRequestDao {
         jdbcTemplate.update(query,loggedInUserId,toId);
     }
 
-    public List<RequestDto> getFriendRequest(int loggedInUserId) {
-        List<UserEntity> friendRequestEntities = userRepository.findByRequestToId(loggedInUserId);
-        List<RequestDto> requestDtos = new ArrayList<>();
-        for (UserEntity userEntity:
-             friendRequestEntities) {
-            requestDtos.add(new RequestDto(userEntity.getUserId(),userEntity.getFirstName(),userEntity.getLastName()));
-        }
-
-        return requestDtos;
-    }
 
     public void acceptOrDeniedFriendRequest(int accept,int loggedInUserId, int id ) {
         String query = "UPDATE friend_request SET readed=1, aproved=? " +
@@ -63,8 +53,5 @@ public class FriendRequestDao {
     }
 
 
-    public boolean checkFriendship(int loggedInUserId, int id) {
-        return friendRequestRepository.findBy(loggedInUserId,id) !=null;
 
-    }
 }

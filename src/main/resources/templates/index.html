@@ -13,7 +13,9 @@
 <body>
 <div class="page" >
     <div class="header">
-        <div class="left"></div>
+        <div class="left">
+            <a href="/">Home</a>
+        </div>
         <div class="center">
             <form class="example" action="/"  method="get" style="margin:auto;max-width:300px">
                 <input type="text" placeholder="Search by Name" name="search"/>
@@ -32,6 +34,18 @@
                 <div class="list-item">
                     <div class="item-content new-message" >
                         <a th:href="${result.id}" th:text="${result.firstName + ' ' + result.lastName }"></a>
+                    </div>
+                </div>
+
+            </section>
+        </div>
+
+        <div class="side-bar" th:if="${not #lists.isEmpty(unreadMessages)}">
+            <section class="container" th:each="result : ${unreadMessages}">
+
+                <div class="list-item">
+                    <div class="item-content new-message" >
+                        <a th:text="${'You have Message from ' + result.firstName + ' ' + result.lastName }"></a>
                     </div>
                 </div>
 
