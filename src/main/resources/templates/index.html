@@ -41,6 +41,7 @@
         </div>
 
         <div class="side-bar" th:if="${not #lists.isEmpty(unreadMessages)}">
+
             <section class="container" th:each="result : ${unreadMessages}">
 
                 <div class="list-item">
