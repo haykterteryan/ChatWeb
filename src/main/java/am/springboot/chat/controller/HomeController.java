@@ -107,9 +107,9 @@ public class HomeController {
     }
 
     @PostMapping(value = "friendrequest", consumes = "application/json")
-    public String sendFriendRequest(@RequestBody FriendRequest friendRequest){
+    public ResponseEntity sendFriendRequest(@RequestBody FriendRequest friendRequest){
         friendRequestDao.sendFriendRequest(loggedInUserId,friendRequest.getUserId());
-        return null;
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping(value = "request", consumes = "application/json")
@@ -121,8 +121,8 @@ public class HomeController {
 
 
     @PostMapping(value = "markAsReaded",consumes = "text/plain")
-    public void markAsReaded(@RequestBody String persionId){
-        System.out.println("marking as readed");
-        messageDao.markUnreadMessagesAsReaded(loggedInUserId,Integer.parseInt(persionId));
+    public ResponseEntity markAsReaded(@RequestBody String personId){
+        messageDao.markUnreadMessagesAsReaded(loggedInUserId,Integer.parseInt(personId));
+        return ResponseEntity.ok().build();
     }
 }

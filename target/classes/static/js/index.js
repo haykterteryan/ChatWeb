@@ -94,6 +94,8 @@ function send(message,receiverId) {
 }
 
 function friendRequest(userId, isAccept) {
+
+
     var request = {
             userId: userId,
             isAccept: isAccept
@@ -106,7 +108,10 @@ function friendRequest(userId, isAccept) {
         xhrFields: {
             withCredentials: true
         },
-        success: alert(request)
+        success: function (response) {
+            alert("exav");
+            $("#request").hide();
+        }
     });
 }
 
@@ -122,6 +127,9 @@ function sendFriendRequest(userId) {
         xhrFields: {
             withCredentials: true
         },
-        success: alert(request)
+        success: function (response) {
+            alert("exav");
+            $("#result").hide();
+        }
     });
 }

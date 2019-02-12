@@ -7,7 +7,7 @@ var $confirmPassword = $("#confirm_password");
 $("form span").hide();
 
 function isPasswordValid() {
-    return $password.val().length > 8;
+    return $password.val().length > 6;
 }
 
 function arePasswordsMatching() {

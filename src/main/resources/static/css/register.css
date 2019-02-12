@@ -69,12 +69,12 @@ form input[type="submit"] {
     margin: 2em 0 0;
     outline: none;
     padding: .8em 0;
-    text-shadow: 0 1px #68B25B;
+    text-shadow: 0 1px #84aced;
 }
 
 form input[type="submit"]:hover {
-    background: #94af65;
-    text-shadow: 0 1px 3px rgba(70, 93, 41, 0.7);
+    background: #84aced;
+    text-shadow: 0 1px 3px rgba(90, 157, 250, 0.7);
 }
 
 form label {
