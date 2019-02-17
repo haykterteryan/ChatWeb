@@ -49,7 +49,9 @@ public class UserService implements UserDetailsService {
                         userEntity.getUserLogin(),
                         userEntity.getUserPassword(),
                         Collections.singleton(new SimpleGrantedAuthority(userEntity.getUserRole())),
-                        userEntity.getUserId()
+                        userEntity.getUserId(),
+                        userEntity.getFirstName(),
+                        userEntity.getLastName()
                 ))
                 .orElseThrow(() -> new UsernameNotFoundException("Username not found"));
     }

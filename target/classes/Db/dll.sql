@@ -5,7 +5,7 @@ create table users (
 				user_password VARCHAR(255) not null,
 				first_name VARCHAR(255) not null,
 				last_name VARCHAR(255),
-				User_role VARCHAR(255) DEFAULT ("USER");
+				User_role VARCHAR(255) DEFAULT ('ROLE_USER');
 				register_date datetime not null DEFAULT CURRENT_TIMESTAMP
 )
 
@@ -28,11 +28,6 @@ create table friend_request(
 	Foreign key (request_from_id) References users(user_id),
 	Foreign key (request_to_id) References users (user_id)
 	)
-
-
-
-
-
 
 
 Create table messages(

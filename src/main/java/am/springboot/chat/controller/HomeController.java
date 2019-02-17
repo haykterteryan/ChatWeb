@@ -92,16 +92,20 @@ public class HomeController {
         if(!(friendRequestService.checkFriendship(loggedInUserId,id))){
         return new ModelAndView("redirect:/");
         }
+        List<RequestDto> requestDtos = friendRequestService.getFriendRequest(loggedInUserId);
         List<MessageDto> messageHistory = messageService.getMessageHistory(loggedInUserId,id);
+        List<UserDto> unreadMessages = userService.getUnreadMessages(loggedInUserId);
         friendDtos = userService.getFriendsList(loggedInUserId);
         messageDao.markUnreadMessagesAsReaded(loggedInUserId,id);
 
         ModelAndView modelAndView = new ModelAndView("index");
 
+        modelAndView.addObject("friendrequest",requestDtos);
         modelAndView.addObject("friendDtos", friendDtos);
         modelAndView.addObject("messagehistory",messageHistory);
         modelAndView.addObject("loggedInUserId", loggedInUserId);
         modelAndView.addObject("friend",userService.getUserName(id));
+        modelAndView.addObject("unreadMessages",unreadMessages);
 
         return modelAndView;
     }

@@ -1,6 +1,13 @@
 var $chat = $('#chat');
+var notifContainer = $('#notifContainer');
 var $txtMessage = $('#txtMessage');
 var friendId = $('#friend').val();
+
+// var $divVertical = $('<div/>').addClass('vertical');
+// var section = $('<section/>');
+// var $divTitle = $('<div/>').addClass('list-title').append("Notifications");
+
+// var notifs = notifContainer.append($divVertical.append($divTitle).append(section));
 
 $txtMessage.on('keypress', function (e) {
     if (e.which === 13) {
@@ -15,6 +22,8 @@ stompClient.connect({}, function (frame) {
     stompClient.subscribe('/user/message', function (data) {
         var body = JSON.parse(data.body);
         var message = body.message;
+        var firstName = body.firstName;
+        var lastName = body.lastName;
         var receiverId = body.receiverId;
         var senderId = body.senderId;
         console.log(receiverId ,  friendId);
@@ -33,7 +42,15 @@ stompClient.connect({}, function (frame) {
 
             markAsReaded(senderId);
         }else {
-            alert("you have new message");
+            console.log('data.body', data.body);
+            console.log()
+
+            var $divContainer = $('<div/>').addClass('container');
+            var $divListItem = $('<div/>').addClass('list-item');
+            var $divItemContent= $('<div/>').addClass('item-content');
+
+            notifContainer.append($divContainer
+                .append($divListItem.append($divItemContent.append("You have New Message from" + firstName +" "+ lastName))));
         }
     });
 });
@@ -64,6 +81,8 @@ function sendMessage() {
 function send(message,receiverId) {
     var mess = {
         message:message,
+        firstName: "",
+        lastName: "",
         receiverId: receiverId,
         senderId: 0
     };
@@ -109,8 +128,7 @@ function friendRequest(userId, isAccept) {
             withCredentials: true
         },
         success: function (response) {
-            alert("exav");
-            $("#request").hide();
+            $("#notification").hide();
         }
     });
 }
@@ -128,7 +146,6 @@ function sendFriendRequest(userId) {
             withCredentials: true
         },
         success: function (response) {
-            alert("exav");
             $("#result").hide();
         }
     });

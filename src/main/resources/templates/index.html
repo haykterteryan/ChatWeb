@@ -28,40 +28,41 @@
         </div>
     </div>
     <div class="body">
-        <div class="side-bar" th:if="${not #lists.isEmpty(friendDtos)}">
-            <section class="container" th:each="result : ${friendDtos}">
+        <div class="side-bar" >
+            <div class="list-title">
+                Friend List
+            </div>
+            <div th:if="${not #lists.isEmpty(friendDtos)}">
+                <section class="container" th:each="result : ${friendDtos}">
 
-                <div class="list-item">
-                    <div class="item-content new-message" >
-                        <a th:href="${result.id}" th:text="${result.firstName + ' ' + result.lastName }"></a>
+                    <div class="list-item">
+                        <div class="item-content new-message" >
+                            <a th:href="${result.id}" th:text="${result.firstName + ' ' + result.lastName }"></a>
+                        </div>
                     </div>
-                </div>
 
-            </section>
-        </div>
-
-        <div class="side-bar" th:if="${not #lists.isEmpty(unreadMessages)}">
-
-            <section class="container" th:each="result : ${unreadMessages}">
-
-                <div class="list-item">
-                    <div class="item-content new-message" >
-                        <a th:text="${'You have Message from ' + result.firstName + ' ' + result.lastName }"></a>
-                    </div>
-                </div>
-
-            </section>
+                </section>
+            </div>
         </div>
         <div class="main-content">
 
             <div class="chat-content">
-                <div th:if="${not #lists.isEmpty(searchresult)}">
+                <div class="vertical" th:if="${not #lists.isEmpty(searchresult)}">
+                    <div class="list-title">
+                        Search Result
+                    </div>
                     <div th:each="result : ${searchresult}">
-                        <div id="result">
-                        <div class ="result" th:text="${result.firstName + ' ' + result.lastName}" />
-                        <button th:onclick="'javascript:sendFriendRequest(\'' + ${result.userId} +'\')'">
-                            Send Friend Request
-                        </button>
+                        <div class="container" id="result">
+                            <div class="list-item">
+                                <div class="item-content" >
+                                    <div class="user-search">
+                                        <p th:text="${result.firstName + ' ' + result.lastName}"></p>
+                                        <button th:onclick="'javascript:sendFriendRequest(\'' + ${result.userId} +'\')'">
+                                            Send Friend Request
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -108,20 +109,42 @@
             </div>
 
             <div class="notification-content">
-                <section th:if="${not #lists.isEmpty(friendrequest)}">
-                    <div class="requestbody" th:each="result : ${friendrequest}">
-                        <div id="request">
-                        <div  class ="request" th:text="${result.firstName + ' ' + result.lastName}" />
-                        <button class="accept-send-btn" th:onclick="'javascript:friendRequest(\'' + ${result.requestFromid} +'\',\''+ ${1} + '\')'">Accept</button>
-                        <button class="denied-send-btn" th:onclick="'javascript:friendRequest(\'' + ${result.requestFromid} +'\',\''+ ${0} + '\')'">Denied</button>
+                <div class="vertical">
+                    <div class="list-title">
+                        Notification
+                    </div>
+                    <section th:if="${not #lists.isEmpty(friendrequest)}">
+                        <div class="container" th:each="result : ${friendrequest}">
+                            <div class="list-item" id="notification">
+                                <div class="item-content">
+                                    <div class="vertical">
+                                        <div  class ="request" th:text="${result.firstName + ' ' + result.lastName}" />
+                                        <div class="notif-buttons">
+                                            <button class="accept-send-btn" th:onclick="'javascript:friendRequest(\'' + ${result.requestFromid} +'\',\''+ ${1} + '\')'">
+                                                Accept
+                                            </button>
+                                            <button class="denied-send-btn" th:onclick="'javascript:friendRequest(\'' + ${result.requestFromid} +'\',\''+ ${0} + '\')'">
+                                                Denied
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </section>
-                <section th:if="${not #lists.isEmpty(unreadMessages)}">
-                    <div th:each="result : ${unreadMessages}">
-                        <div class ="msg-from" th:text="${'You have message from ' + result.firstName + ' ' + result.lastName}" />
-                    </div>
-                </section>
+                    </section>
+                    <section id="notifContainer">
+                        <div th:if="${not #lists.isEmpty(unreadMessages)}">
+                            <div class="container" th:each="result : ${unreadMessages}">
+                                <div class="list-item">
+                                    <div class="item-content">
+                                        <div class ="msg-from" th:text="${'You have message from ' + result.firstName + ' ' + result.lastName}" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </section>
+                </div>
             </div>
         </div>
     </div>

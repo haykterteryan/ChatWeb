@@ -10,15 +10,28 @@ public class UserDomain extends User {
 
     private int userId;
 
+    private String firstName;
+
+    private  String lastName;
+
+
+    public UserDomain(String username, String password, Collection<? extends GrantedAuthority> authorities, int userId, String firstName, String lastName) {
+        super(username, password, authorities);
+        this.userId = userId;
+        this.firstName=  firstName;
+        this.lastName= lastName;
+    }
 
     public int getUserId() {
         return userId;
     }
 
+    public String getFirstName() {
+        return firstName;
+    }
 
-    public UserDomain(String username, String password, Collection<? extends GrantedAuthority> authorities, int userId) {
-        super(username, password, authorities);
-        this.userId = userId;
+    public String getLastName() {
+        return lastName;
     }
 
 

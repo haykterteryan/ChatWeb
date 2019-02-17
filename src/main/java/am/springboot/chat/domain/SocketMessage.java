@@ -8,6 +8,10 @@ public class SocketMessage {
     @JsonProperty()
     private String message;
 
+    private String firstName;
+
+    private  String lastName;
+
     private int receiverId;
 
     private int senderId;
@@ -34,6 +38,22 @@ public class SocketMessage {
 
     public void setSenderId(int senderId) {
         this.senderId = senderId;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 }
 

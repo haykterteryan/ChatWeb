@@ -34,9 +34,11 @@ public class ChatController {
                 .getContext()
                 .getAuthentication()
                 .getPrincipal();
-        int loggedInUserId = loggedInUser.getUserId();
+        socketMessage.setSenderId(loggedInUser.getUserId());
+        socketMessage.setFirstName(loggedInUser.getFirstName());
+        socketMessage.setLastName(loggedInUser.getLastName());
 
-        messageDao.sendMessageToDb(loggedInUserId,socketMessage.getReceiverId(),
+        messageDao.sendMessageToDb(loggedInUser.getUserId(),socketMessage.getReceiverId(),
                 socketMessage.getMessage(),false);
 
         List<Object> allPrincipals = sessionRegistry.getAllPrincipals();
@@ -45,9 +47,7 @@ public class ChatController {
                 allPrincipals) {
             UserDomain userDomain = (UserDomain)principal;
             if(userDomain.getUserId() == socketMessage.getReceiverId()){
-                socketMessage.setSenderId(loggedInUserId);
                 simpMessagingTemplate.convertAndSendToUser(userDomain.getUsername(),"/message",socketMessage);
-                break;
             }
         }
         return ResponseEntity.ok().build();

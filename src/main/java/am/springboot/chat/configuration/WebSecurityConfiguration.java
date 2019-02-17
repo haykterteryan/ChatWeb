@@ -38,9 +38,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/admin").access("hasRole('ADMIN')")
                 .and()
                 .authenticationProvider(daoAuthenticationProvider())
-                .sessionManagement().maximumSessions(10).sessionRegistry(sessionRegistry());
+                .sessionManagement().maximumSessions(1).sessionRegistry(sessionRegistry());
         httpSecurity.csrf().disable();
-        httpSecurity.logout().permitAll();
+//        httpSecurity.logout().permitAll();
     }
 
     @Bean
