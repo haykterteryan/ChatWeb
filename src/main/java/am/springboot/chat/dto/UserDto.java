@@ -6,10 +6,11 @@ public class UserDto {
     private String firstName;
     private String lastName;
 
-    public UserDto(String firstName, String lastName) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-    }
+//    public UserDto(String firstName, String lastName) {
+//
+//        this.firstName = firstName;
+//        this.lastName = lastName;
+//    }
 
     public UserDto(int userId, String firstName, String lastName) {
         this.userId = userId;

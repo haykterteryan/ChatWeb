@@ -18,7 +18,6 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.xml.bind.SchemaOutputResolver;
 import java.util.List;
 
 
@@ -58,6 +57,7 @@ public class HomeController {
 
         ModelAndView modelAndView = new ModelAndView("index");
 
+        friendDtos = userService.getFriendsList(loggedInUserId);
         List<UserDto> userDtos = userService.loadUserByname(name,loggedInUserId);
 
         modelAndView.addObject("searchresult", userDtos);
@@ -92,11 +92,11 @@ public class HomeController {
         if(!(friendRequestService.checkFriendship(loggedInUserId,id))){
         return new ModelAndView("redirect:/");
         }
+        messageDao.markUnreadMessagesAsReaded(loggedInUserId,id);
+        List<UserDto> unreadMessages = userService.getUnreadMessages(loggedInUserId);
         List<RequestDto> requestDtos = friendRequestService.getFriendRequest(loggedInUserId);
         List<MessageDto> messageHistory = messageService.getMessageHistory(loggedInUserId,id);
-        List<UserDto> unreadMessages = userService.getUnreadMessages(loggedInUserId);
         friendDtos = userService.getFriendsList(loggedInUserId);
-        messageDao.markUnreadMessagesAsReaded(loggedInUserId,id);
 
         ModelAndView modelAndView = new ModelAndView("index");
 

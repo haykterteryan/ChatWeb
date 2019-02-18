@@ -26,6 +26,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
+                .csrf().ignoringAntMatchers("/user/**","/api/**","/login","/register")
+                .and()
                 .formLogin()
                 .loginPage("/login")
                 .usernameParameter("username")
@@ -40,7 +42,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authenticationProvider(daoAuthenticationProvider())
                 .sessionManagement().maximumSessions(1).sessionRegistry(sessionRegistry());
         httpSecurity.csrf().disable();
-//        httpSecurity.logout().permitAll();
+                httpSecurity.logout().permitAll();
     }
 
     @Bean

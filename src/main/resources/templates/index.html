@@ -135,7 +135,7 @@
                     <section id="notifContainer">
                         <div th:if="${not #lists.isEmpty(unreadMessages)}">
                             <div class="container" th:each="result : ${unreadMessages}">
-                                <div class="list-item">
+                                <div class="list-item" th:id="'senderId' + ${result.userId}">
                                     <div class="item-content">
                                         <div class ="msg-from" th:text="${'You have message from ' + result.firstName + ' ' + result.lastName}" />
                                     </div>

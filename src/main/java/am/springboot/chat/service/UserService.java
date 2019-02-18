@@ -92,7 +92,7 @@ public class UserService implements UserDetailsService {
 
         for (UserEntity userEntity : userEntities
                 ) {
-            userDtos.add(new UserDto(userEntity.getFirstName(),userEntity.getLastName()));
+            userDtos.add(new UserDto(userEntity.getUserId(),userEntity.getFirstName(),userEntity.getLastName()));
         }
 
         return userDtos;

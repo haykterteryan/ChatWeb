@@ -3,6 +3,14 @@ var notifContainer = $('#notifContainer');
 var $txtMessage = $('#txtMessage');
 var friendId = $('#friend').val();
 
+function scrollToBottom() {
+    if($chat.length){
+        $chat.scrollTop($chat[0].scrollHeight);
+    }
+}
+
+scrollToBottom();
+
 $txtMessage.on('keypress', function (e) {
     if (e.which === 13) {
         sendMessage();
@@ -20,8 +28,9 @@ stompClient.connect({}, function (frame) {
         var lastName = body.lastName;
         var receiverId = body.receiverId;
         var senderId = body.senderId;
-        console.log(receiverId ,  friendId);
-        if(senderId == friendId) {
+
+        if (senderId == friendId) {
+
             var $divmsgrm = $('<div/>').addClass('msg left-msg');
             var $divmsgbubble = $('<div/>').addClass('msg-bubble');
             var $divmsginfo = $('<div/>').addClass('msg-info');
@@ -29,19 +38,24 @@ stompClient.connect({}, function (frame) {
             var $divmsgtext = $('<div/>').addClass('msg-text');
 
 
-
             $chat.append($divmsgrm
                 .append($divmsgbubble.append($divmsginfo.append($divmsginfotime))
                     .append($divmsgtext.append(message))));
-
+            scrollToBottom();
             markAsReaded(senderId);
-        }else {
+        } else {
+
+            var notificationId = document.getElementById("senderId" + senderId);
+            if(notificationId){
+                return;
+            }
+
             var $divContainer = $('<div/>').addClass('container');
-            var $divListItem = $('<div/>').addClass('list-item');
-            var $divItemContent= $('<div/>').addClass('item-content');
+            var $divListItem = $('<div/>').addClass('list-item').attr('id', 'senderId' + senderId);
+            var $divItemContent = $('<div/>').addClass('item-content');
 
             notifContainer.append($divContainer
-                .append($divListItem.append($divItemContent.append("You have message from " + firstName +" "+ lastName))));
+                .append($divListItem.append($divItemContent.append("You have message from " + firstName + " " + lastName))));
         }
     });
 });
@@ -59,19 +73,18 @@ function markAsReaded(persionId) {
 }
 
 
-
 function sendMessage() {
     var message = $txtMessage.val();
     if ($txtMessage.val() === "") {
         alert("Please type message!");
         return false;
     }
-    send(message,friendId);
+    send(message, friendId);
 }
 
-function send(message,receiverId) {
+function send(message, receiverId) {
     var mess = {
-        message:message,
+        message: message,
         firstName: "",
         lastName: "",
         receiverId: receiverId,
@@ -97,7 +110,7 @@ function send(message,receiverId) {
             $chat.append($divmsgrm
                 .append($divmsgbubble.append($divmsginfo.append($divmsginfotime))
                     .append($divmsgtext.append(mess.message))));
-
+            scrollToBottom();
             $txtMessage.val('');
         }
     });
@@ -107,11 +120,11 @@ function friendRequest(userId, isAccept) {
 
 
     var request = {
-            userId: userId,
-            isAccept: isAccept
-        };
+        userId: userId,
+        isAccept: isAccept
+    };
 
-    return $.ajax('/request',{
+    return $.ajax('/request', {
         type: "POST",
         data: JSON.stringify(request),
         contentType: "application/json",
@@ -129,7 +142,7 @@ function sendFriendRequest(userId) {
         userId: userId
     };
 
-    return $.ajax('/friendrequest',{
+    return $.ajax('/friendrequest', {
         type: "POST",
         data: JSON.stringify(request),
         contentType: "application/json",
