@@ -38,7 +38,7 @@ public class LoginController {
 
 
     @GetMapping("/register")
-    public String register(){
+    public String register(RegisterRequest registerRequest){
         return "register";
     }
 

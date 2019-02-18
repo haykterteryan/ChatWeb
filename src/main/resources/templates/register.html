@@ -8,26 +8,24 @@
             crossorigin="anonymous"></script>
 </head>
 <body>
-<form method="post">
+<form th:object="${registerRequest}" method="post">
     <h2>Sign Up</h2>
     <p>
-    <div th:if="${param.error}" class="alert alert-error">
-    Login Error
-    </div>
+
         <label for="Login" class="floatLabel">Login</label>
-        <input id="Login" name="login" type="text"/>
+        <input id="Login" name="login" th:field="*{login}" type="text"/>
 
-
+        <div th:if="${#fields.hasErrors('login')}" th:errors="*{login}">Login Error</div>
     </p>
     <p>
         <label for="firstName" class="floatLabel">First name</label>
-        <input id="firstName" name="firstName" type="text"/>
-        <!--<td th:if="${#fields.hasErrors('firstName')}">First Name Error</td>-->
+        <input id="firstName" name="firstName" th:field="*{firstName}" type="text"/>
+        <td th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">First Name Error</td>
     </p>
     <p>
         <label for="lastName" class="floatLabel">Last name</label>
-        <input id="lastName" name="lastName" type="text"/>
-        <!--<td th:if="${#fields.hasErrors('age')}">Last Name Error</td>-->
+        <input id="lastName" name="lastName" th:field="*{lastName}" type="text"/>
+        <td th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">Last Name Error</td>
     </p>
     <p>
         <label for="password" class="floatLabel">Password</label>

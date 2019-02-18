@@ -3,12 +3,6 @@ var notifContainer = $('#notifContainer');
 var $txtMessage = $('#txtMessage');
 var friendId = $('#friend').val();
 
-// var $divVertical = $('<div/>').addClass('vertical');
-// var section = $('<section/>');
-// var $divTitle = $('<div/>').addClass('list-title').append("Notifications");
-
-// var notifs = notifContainer.append($divVertical.append($divTitle).append(section));
-
 $txtMessage.on('keypress', function (e) {
     if (e.which === 13) {
         sendMessage();
