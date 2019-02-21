@@ -18,6 +18,9 @@ public class FriendsEntity {
     @Column(name = "friend_id", insertable = false,updatable = false)
     private int friendId;
 
+    @Column(name = "block_status")
+    private boolean blockStatus;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn( name="friend_id")
     private UserEntity userEntity;
@@ -56,5 +59,13 @@ public class FriendsEntity {
 
     public void setFriendId(int friendId) {
         this.friendId = friendId;
+    }
+
+    public boolean isBlockStatus() {
+        return blockStatus;
+    }
+
+    public void setBlockStatus(boolean blockStatus) {
+        this.blockStatus = blockStatus;
     }
 }

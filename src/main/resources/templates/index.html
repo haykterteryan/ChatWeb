@@ -45,8 +45,10 @@
             </div>
         </div>
         <div class="main-content">
-
             <div class="chat-content">
+                <div class="welcome" th:if="${userInfo != null}" th:text="${'Welcome ' + userInfo.firstName + ' ' +userInfo.lastName }">
+
+                </div>
                 <div class="vertical" th:if="${not #lists.isEmpty(searchresult)}">
                     <div class="list-title">
                         Search Result
@@ -70,6 +72,12 @@
                     <header class="msger-header">
                         <div class="msger-header-title" th:text="${friend.firstName+ ' ' + friend.lastName}">
 
+                        </div>
+                        <div class="blockmsg" id="blockmsg" th:if="${blockStatus == false}">
+                            <button th:onclick="'javascript:blockMessages(\'' + ${friend.userId} +'\',\''+ ${1} + '\')'">Block</button>
+                        </div>
+                        <div class="unblockmsg" id="unblockmsg" th:if="${blockStatus == true}">
+                            <button th:onclick="'javascript:blockMessages(\'' + ${friend.userId} +'\',\''+ ${0} + '\')'">Unblock</button>
                         </div>
                     </header>
 

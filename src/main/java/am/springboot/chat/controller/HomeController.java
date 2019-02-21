@@ -1,5 +1,7 @@
 package am.springboot.chat.controller;
 
+import am.springboot.chat.dao.FriendsDao;
+import am.springboot.chat.domain.BlockFriend;
 import am.springboot.chat.dto.FriendDto;
 import am.springboot.chat.dto.MessageDto;
 import am.springboot.chat.dto.RequestDto;
@@ -32,15 +34,17 @@ public class HomeController {
     private int loggedInUserId;
     private final MessageDao messageDao;
     private final FriendRequestDao friendRequestDao;
+    private final FriendsDao friendsDao;
 
     public HomeController(UserService userService, MessageService messageService,
                           FriendRequestService friendRequestService, MessageDao messageDao,
-                          FriendRequestDao friendRequestDao) {
+                          FriendRequestDao friendRequestDao, FriendsDao friendsDao) {
         this.userService = userService;
         this.messageService = messageService;
         this.friendRequestService = friendRequestService;
         this.messageDao = messageDao;
         this.friendRequestDao = friendRequestDao;
+        this.friendsDao = friendsDao;
     }
 
     private  void getUserId() {
@@ -57,11 +61,18 @@ public class HomeController {
 
         ModelAndView modelAndView = new ModelAndView("index");
 
+        List<RequestDto> requestDtos = friendRequestService.getFriendRequest(loggedInUserId);
         friendDtos = userService.getFriendsList(loggedInUserId);
         List<UserDto> userDtos = userService.loadUserByname(name,loggedInUserId);
+        List<UserDto> unreadMessages = userService.getUnreadMessages(loggedInUserId);
+
 
         modelAndView.addObject("searchresult", userDtos);
         modelAndView.addObject("friendDtos", friendDtos);
+        modelAndView.addObject("friendrequest",requestDtos);
+        modelAndView.addObject("unreadMessages",unreadMessages);
+
+
         return  modelAndView;
     }
 
@@ -73,12 +84,14 @@ public class HomeController {
         List<RequestDto> requestDtos = friendRequestService.getFriendRequest(loggedInUserId);
         List<UserDto> unreadMessages = userService.getUnreadMessages(loggedInUserId);
         friendDtos = userService.getFriendsList(loggedInUserId);
+        UserDto currentUserDto =  userService.getUserName(loggedInUserId);
 
         ModelAndView modelAndView = new ModelAndView("index");
 
         modelAndView.addObject("friendrequest",requestDtos);
         modelAndView.addObject("friendDtos", friendDtos);
         modelAndView.addObject("unreadMessages",unreadMessages);
+        modelAndView.addObject("userInfo",currentUserDto);
 
         return modelAndView;
 
@@ -92,6 +105,8 @@ public class HomeController {
         if(!(friendRequestService.checkFriendship(loggedInUserId,id))){
         return new ModelAndView("redirect:/");
         }
+
+
         messageDao.markUnreadMessagesAsReaded(loggedInUserId,id);
         List<UserDto> unreadMessages = userService.getUnreadMessages(loggedInUserId);
         List<RequestDto> requestDtos = friendRequestService.getFriendRequest(loggedInUserId);
@@ -100,6 +115,7 @@ public class HomeController {
 
         ModelAndView modelAndView = new ModelAndView("index");
 
+        modelAndView.addObject("blockStatus" , friendsDao.getBlockStatus(loggedInUserId,id));
         modelAndView.addObject("friendrequest",requestDtos);
         modelAndView.addObject("friendDtos", friendDtos);
         modelAndView.addObject("messagehistory",messageHistory);
@@ -112,6 +128,7 @@ public class HomeController {
 
     @PostMapping(value = "friendrequest", consumes = "application/json")
     public ResponseEntity sendFriendRequest(@RequestBody FriendRequest friendRequest){
+        getUserId();
         friendRequestDao.sendFriendRequest(loggedInUserId,friendRequest.getUserId());
         return ResponseEntity.ok().build();
     }
@@ -126,7 +143,15 @@ public class HomeController {
 
     @PostMapping(value = "markAsReaded",consumes = "text/plain")
     public ResponseEntity markAsReaded(@RequestBody String personId){
+        getUserId();
         messageDao.markUnreadMessagesAsReaded(loggedInUserId,Integer.parseInt(personId));
         return ResponseEntity.ok().build();
+    }
+
+    @PostMapping(value = "blockMessages",consumes = "application/json")
+    public  ResponseEntity blockUnblock(@RequestBody BlockFriend blockFriend){
+        getUserId();
+        friendsDao.blockUser(loggedInUserId,blockFriend.getUserId(),blockFriend.getBlock());
+        return  ResponseEntity.ok().build();
     }
 }

@@ -85,10 +85,7 @@ function sendMessage() {
 function send(message, receiverId) {
     var mess = {
         message: message,
-        firstName: "",
-        lastName: "",
-        receiverId: receiverId,
-        senderId: 0
+        receiverId: receiverId
     };
 
     $.ajax('/api/send', {
@@ -98,6 +95,7 @@ function send(message, receiverId) {
         xhrFields: {
             withCredentials: true
         },
+
 
         success: function (response) {
             var $divmsgrm = $('<div/>').addClass('msg right-msg');
@@ -152,5 +150,25 @@ function sendFriendRequest(userId) {
         success: function (response) {
             $("#result").hide();
         }
+    });
+}
+
+function blockMessages(userId,block) {
+    var blockstatus = {
+        userId:userId,
+        block:block
+    };
+    return $.ajax('/blockMessages', {
+        type: "POST",
+        data: JSON.stringify(blockstatus),
+        contentType: "application/json",
+        xhrFields: {
+            withCredentials: true
+        },
+        success: function (response) {
+            $("#blockmsg").hide();
+
+        }
+
     });
 }

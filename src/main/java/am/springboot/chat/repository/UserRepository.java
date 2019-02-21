@@ -15,8 +15,8 @@ public interface UserRepository extends CrudRepository<UserEntity,Long> {
     @Query("Select users from UserEntity users where users.userId Not In (" +
             " select u.userId from  UserEntity u " +
             "inner join u.friendsEntity friends" +
-            " where friends.userId = :id) and users.userId <> :id and " +
-            "( users.firstName = :name or users.lastName = :name )")
+            " where friends.userId = :id) " +
+            "  and users.userId <> :id and ( users.firstName = :name or users.lastName = :name )")
     List<UserEntity> searchById( @Param("id") int id, @Param("name") String name);
 
     @Query("Select users from UserEntity users " +

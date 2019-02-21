@@ -13,6 +13,7 @@ create table friends(
 				friends_id Int AUTO_INCREMENT Primary key,
 				user_id INT not null,
 				friend_id Int not null,
+				block_status boolean not null default 0,
 				Foreign Key (user_id) References users(user_id),
 				Foreign Key (friend_id) References users(user_id)
  )

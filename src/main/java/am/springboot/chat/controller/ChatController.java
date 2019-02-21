@@ -1,5 +1,6 @@
 package am.springboot.chat.controller;
 
+import am.springboot.chat.dao.FriendsDao;
 import am.springboot.chat.dao.MessageDao;
 import am.springboot.chat.domain.SocketMessage;
 import am.springboot.chat.domain.UserDomain;
@@ -20,15 +21,18 @@ public class ChatController {
     private final SessionRegistry sessionRegistry;
     private final SimpMessagingTemplate simpMessagingTemplate;
     private final MessageDao messageDao;
+    private final FriendsDao friendsDao;
 
-    public ChatController(SessionRegistry sessionRegistry, SimpMessagingTemplate simpMessagingTemplate, MessageDao messageDao) {
+    public ChatController(SessionRegistry sessionRegistry, SimpMessagingTemplate simpMessagingTemplate, MessageDao messageDao, FriendsDao friendsDao) {
         this.sessionRegistry = sessionRegistry;
         this.simpMessagingTemplate = simpMessagingTemplate;
         this.messageDao = messageDao;
+        this.friendsDao = friendsDao;
     }
 
     @PostMapping(value = "/send", consumes = "application/json")
-    public ResponseEntity<?> send(@RequestBody SocketMessage socketMessage ) {
+    public ResponseEntity<?> send(@RequestBody SocketMessage socketMessage
+    ) {
 
         UserDomain loggedInUser = (UserDomain) SecurityContextHolder
                 .getContext()
@@ -38,7 +42,15 @@ public class ChatController {
         socketMessage.setFirstName(loggedInUser.getFirstName());
         socketMessage.setLastName(loggedInUser.getLastName());
 
-        messageDao.sendMessageToDb(loggedInUser.getUserId(),socketMessage.getReceiverId(),
+        if(!friendsDao.checkFriendShip(socketMessage.getSenderId(),socketMessage.getReceiverId())){
+            return ResponseEntity.badRequest().build();
+        }
+        if(friendsDao.checkBlockStatus(socketMessage.getSenderId(),socketMessage.getReceiverId())){
+            return ResponseEntity.status(403).build();
+        }
+
+
+        messageDao.sendMessageToDb(socketMessage.getSenderId(),socketMessage.getReceiverId(),
                 socketMessage.getMessage(),false);
 
         List<Object> allPrincipals = sessionRegistry.getAllPrincipals();
