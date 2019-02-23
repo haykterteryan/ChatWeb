@@ -61,6 +61,7 @@ public class HomeController {
 
         ModelAndView modelAndView = new ModelAndView("index");
 
+        UserDto currentUserDto =  userService.getUserName(loggedInUserId);
         List<RequestDto> requestDtos = friendRequestService.getFriendRequest(loggedInUserId);
         friendDtos = userService.getFriendsList(loggedInUserId);
         List<UserDto> userDtos = userService.loadUserByname(name,loggedInUserId);
@@ -71,6 +72,7 @@ public class HomeController {
         modelAndView.addObject("friendDtos", friendDtos);
         modelAndView.addObject("friendrequest",requestDtos);
         modelAndView.addObject("unreadMessages",unreadMessages);
+        modelAndView.addObject("userInfo",currentUserDto);
 
 
         return  modelAndView;
@@ -106,7 +108,7 @@ public class HomeController {
         return new ModelAndView("redirect:/");
         }
 
-
+        UserDto currentUserDto =  userService.getUserName(loggedInUserId);
         messageDao.markUnreadMessagesAsReaded(loggedInUserId,id);
         List<UserDto> unreadMessages = userService.getUnreadMessages(loggedInUserId);
         List<RequestDto> requestDtos = friendRequestService.getFriendRequest(loggedInUserId);
@@ -122,6 +124,7 @@ public class HomeController {
         modelAndView.addObject("loggedInUserId", loggedInUserId);
         modelAndView.addObject("friend",userService.getUserName(id));
         modelAndView.addObject("unreadMessages",unreadMessages);
+        modelAndView.addObject("userInfo",currentUserDto);
 
         return modelAndView;
     }

@@ -95,10 +95,6 @@ function send(message, receiverId) {
         xhrFields: {
             withCredentials: true
         },
-        error: function () {
-            console.log("AJAX error in request: ");
-        },
-
         success: function (response) {
             var $divmsgrm = $('<div/>').addClass('msg right-msg');
             var $divmsgbubble = $('<div/>').addClass('msg-bubble');
@@ -112,6 +108,13 @@ function send(message, receiverId) {
                     .append($divmsgtext.append(mess.message))));
             scrollToBottom();
             $txtMessage.val('');
+        },
+        error: function (jqXHR) {
+            if (jqXHR.status === 400) {
+
+            } else if (jqXHR.status === 403) {
+
+            }
         }
     });
 }
@@ -168,9 +171,21 @@ function blockMessages(userId,block) {
             withCredentials: true
         },
         success: function (response) {
-            $("#blockmsg").hide();
-
+            blockStatus(block);
         }
-
     });
+}
+
+function blockStatus(blockStatus) {
+    console.log('dfdfdf', blockStatus);
+
+    if(blockStatus == 1){
+        $("#blockmsg").hide();
+        $("#unblockmsg").show();
+    }
+    else{
+        $("#blockmsg").show();
+        $("#unblockmsg").hide();
+    }
+
 }
